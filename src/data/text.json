@@ -1,0 +1,296 @@
+{
+  "react": {
+    "5": [
+      "Trời ơi da em nè! Bạn trai nhận không ra luôn!",
+      "Đỉnh nóc kịch trần bay phấp phới!",
+      "Shop ơi em quay video khen liền!",
+      "Trắng trong như trứng gà bóc!"
+    ],
+    "4": [
+      "Ok nha shop, xài được nè.",
+      "Cũng được á, lần sau ghé.",
+      "Ừm, không tệ đâu."
+    ],
+    "3": [
+      "Ờ… cũng là kem.",
+      "Tạm được. Tạm thôi.",
+      "Để chị xài thử coi sao."
+    ],
+    "2": [
+      "Hàng không giống hình nha shop.",
+      "Trả nửa tiền thôi, tui không hài lòng.",
+      "Cái này… ai đặt vậy?"
+    ],
+    "1": [
+      "Shop ơi mặt tui nóng ran! HOÀN TIỀN!",
+      "Tui đi bóc phốt liền!",
+      "Ét o ét! Rát quá trời!"
+    ]
+  },
+  "missLines": {
+    "t+": "Trắng quá trời, như tượng sáp!",
+    "t-": "Xài rồi mà vẫn đen thui à?",
+    "m+": "Láng quá trượt luôn khẩu trang.",
+    "m-": "Sần sần như vỏ mít.",
+    "n+": "Dày như trát vữa, đổ mồ hôi hột.",
+    "n-": "Ra nắng 5 phút cháy như bánh tráng nướng!",
+    "k+": "Khô tới nứt như ruộng hạn!",
+    "k-": "Bết dính như mỡ hành!"
+  },
+  "reviews": {
+    "great": [
+      "Đắp xong người yêu nhận không ra. 5 sao.",
+      "Thơm mùi dưa leo, ăn được luôn (đừng ăn). 5 sao.",
+      "Hũ đẹp, kem lành, live vui như coi hài.",
+      "Se lỗ chân lông xịn, muỗi đậu trượt chân.",
+      "Đi nắng không cháy, về nhà không bị mẹ chửi.",
+      "Kem lành như cục đất, mà đất tốt."
+    ],
+    "ok": [
+      "Không bật tông nhưng da khoẻ, chị chịu.",
+      "Giao nhanh, gói kỹ, nhãn dễ thương.",
+      "Tạm ổn, sẽ quay lại nếu có sale."
+    ],
+    "meh": [
+      "Xài 3 ngày vẫn y chang như cũ.",
+      "Hũ như hũ chao.",
+      "Tiền nào của nấy, mà hơi ít của."
+    ],
+    "bad": [
+      "Bật tông thật, bật ra khỏi bảng màu luôn. Giờ trắng như giấy A4.",
+      "Mặt trắng cổ đen, như ly cà phê sữa đá.",
+      "Bôi xong đi nắng mặt chín như bánh tráng nướng.",
+      "Nhanh khô thật, khô tới nứt như ruộng hạn.",
+      "Ghi 100% thiên nhiên mà mở nắp nghe mùi xăng.",
+      "Chất lượng tương xứng giá tiền: 0 đồng thì đúng."
+    ],
+    "toxic": [
+      "Thoa xong mặt phát sáng, cả xóm tưởng UFO.",
+      "Mặt đỏ như tôm luộc, ai mua rồi vào đây điểm danh.",
+      "Ngưng kem 2 ngày mặt nổi mụn như trái mít.",
+      "Rát quá trời, tưởng thoa ớt hiểm."
+    ],
+    "late": [
+      "Hôm qua đẹp, sáng nay mặt đỏ như tôm luộc. Hoàn tiền!",
+      "Ngủ dậy mặt sưng như bánh bao. Shop ra đây!",
+      "Hàng dỏm hả shop? Mặt em giờ có vân xanh."
+    ],
+    "miss": {
+      "t+": [
+        "Bật tông thật, bật ra khỏi bảng màu luôn. Giờ trắng như giấy A4.",
+        "Trắng như tượng sáp, đi đường con nít khóc."
+      ],
+      "t-": [
+        "Xài 3 ngày vẫn y chang như cũ.",
+        "Đặt trắng mà nhận được… y chang hôm qua."
+      ],
+      "m+": [
+        "Láng quá, đeo khẩu trang tuột xuống cằm.",
+        "Mịn tới mức muỗi đậu trượt chân té."
+      ],
+      "m-": [
+        "Sần sần như vỏ mít, thoa như chà nhám.",
+        "Lỗ chân lông vẫn to như ổ gà."
+      ],
+      "n+": [
+        "Dày như trát vữa, đổ mồ hôi hột.",
+        "Thoa xong mặt như bánh bao hấp."
+      ],
+      "n-": [
+        "Bôi xong đi nắng mặt chín như bánh tráng nướng.",
+        "Ra nắng 5 phút đen thêm 2 tông."
+      ],
+      "k+": [
+        "Nhanh khô thật, khô tới nứt như ruộng hạn.",
+        "Khô quá, cười cái là mặt nứt."
+      ],
+      "k-": [
+        "Bết dính như mỡ hành, ruồi bu.",
+        "Thoa xong bóng như chảo chiên."
+      ]
+    },
+    "great_fake": [
+      "Trắng liền á! Mà sao hơi rát rát…",
+      "Đẹp ghê, có điều mùi hơi giống xăng.",
+      "5 sao vì đẹp, trừ đi vì mặt nóng hổi."
+    ]
+  },
+  "chat": {
+    "drop": [
+      "dưa leo hả chế, quen ghê",
+      "bỏ gì dô vậy shop",
+      "thơm không chế",
+      "ASMR hả trời",
+      "cho em xin công thức"
+    ],
+    "fake_drop": [
+      "hũ không nhãn kìa mọi người ơi",
+      "ủa cái gói đó chữ gì vậy",
+      "check var cái gói coi",
+      "hàng auth không shop??"
+    ],
+    "weird": [
+      "kem đánh răng?? bôi mặt??",
+      "ủa phèn chua hả trời",
+      "mắm chưa shop",
+      "bà ngoại tui cũng làm vậy nè"
+    ],
+    "toxic": [
+      "khói xanh lè kìa",
+      "mắt em cay qua màn hình luôn",
+      "báo cáo admin",
+      "thau sủi bọt kìa chế",
+      "ét o ét"
+    ],
+    "boom": [
+      "HAHAHA mất trắng",
+      "clip này lên xu hướng",
+      "💀💀💀",
+      "cứu bé",
+      "thau bay lên trời luôn"
+    ],
+    "angry": [
+      "drama drama hóng",
+      "chị kia nói đúng mà",
+      "bóc phốt đi chị",
+      "ủa sao vậy shop"
+    ],
+    "five": [
+      "đỉnh chế ơi",
+      "cho em 1 hũ",
+      "chốt 1 hũ 09xx…",
+      "shop có tâm ghê",
+      "thả tim cho shop"
+    ],
+    "stir": [
+      "khuấy đều tay nha chế",
+      "màu đẹp vậy",
+      "ghiền cái màu này",
+      "trộn trộn trộn"
+    ],
+    "fire": [
+      "cháy kìa CHÁY KÌA",
+      "chị ơi lửa kìa lửa kìa",
+      "gọi 114 chưa",
+      "nướng kem hả shop"
+    ],
+    "police": [
+      "ĐANG LIVE MÀ",
+      "ai quay lại đi",
+      "toang rồi chế ơi",
+      "cứu bé",
+      "chú ơi con xin"
+    ],
+    "idle": [
+      "báo giá ạ",
+      "ib em với shop ơi",
+      "có size M không shop?",
+      "shop ở đâu vậy",
+      "có ship ra đảo không, đảo bếp nhà em",
+      "live này có seeding không",
+      "giá gốc 990k mà sao sale hoài vậy",
+      "mắt xem 3 người là mẹ, em với chị đúng không"
+    ],
+    "bored": [
+      "chán quá đi ngủ",
+      "làm gì đi chế",
+      "out đây",
+      "ngủ gật rồi"
+    ],
+    "pitch_honest": [
+      "shop nói thật ghê",
+      "uy tín nha",
+      "da khoẻ là được"
+    ],
+    "pitch_lie": [
+      "THẬT KHÔNG CHẾ",
+      "chốt chốt chốt",
+      "1 đêm thiệt hả",
+      "bác sĩ nào vậy chế"
+    ],
+    "cat": [
+      "MÈO KÌA MỌI NGƯỜI",
+      "bé mèo tên gì vậy chế",
+      "mèo đẹp hơn kem",
+      "clip mèo lên xu hướng",
+      "cho mèo xài thử kem đi"
+    ]
+  },
+  "chatNames": [
+    "be_heo_2k7",
+    "chu_tu_ba_ria",
+    "acc_clone_123",
+    "fan_cung_shop",
+    "anti_chuyen_nghiep",
+    "ong_chu_hoi_xe",
+    "meo_mun_99",
+    "tieu_thu_cafe",
+    "hong_hot_hit",
+    "dan_choi_q8",
+    "me_bim_sua",
+    "nguoi_qua_duong"
+  ],
+  "pitches": [
+    {
+      "id": "honest",
+      "text": "Kem lành tính, xài 2 tuần thấy khác nha!",
+      "hype": 3,
+      "sus": 0
+    },
+    {
+      "id": "lie",
+      "text": "Trắng bật tông sau 1 đêm, bao hoàn tiền!",
+      "hype": 12,
+      "sus": 4
+    },
+    {
+      "id": "big_lie",
+      "text": "Bác sĩ da liễu nước ngoài khuyên dùng luôn á!",
+      "hype": 18,
+      "sus": 8
+    }
+  ],
+  "titles": [
+    {
+      "min": 4.6,
+      "text": "Thánh Chốt Đơn"
+    },
+    {
+      "min": 4.0,
+      "text": "Thợ Pha Trộn Lương Tâm"
+    },
+    {
+      "min": 3.0,
+      "text": "Chủ Tiệm Tạm Được"
+    },
+    {
+      "min": 2.0,
+      "text": "Kẻ Bị Mẹ Tịch Thu Thau"
+    },
+    {
+      "min": 0,
+      "text": "Tội Đồ Ngành Mỹ Phẩm"
+    }
+  ],
+  "scold": {
+    "cantProcess": [
+      "Ai đời nghiền cái này?",
+      "Xay cái đó làm chi má?",
+      "Cái này để nguyên, đừng phá!"
+    ],
+    "full": [
+      "Thau đầy rồi, bỏ bớt ra!",
+      "Hết chỗ rồi chế ơi!"
+    ],
+    "noBase": [
+      "Chọn cốt kem trước đã!",
+      "Chưa có cốt kem mà trộn gì?"
+    ],
+    "noStock": [
+      "Hết hàng rồi! Gọi điện nhập thêm đi."
+    ],
+    "locked": [
+      "Khuấy rồi là chốt, hết rút ra được!"
+    ]
+  }
+}

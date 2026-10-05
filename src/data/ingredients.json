@@ -1,0 +1,520 @@
+{
+  "ingredients": [
+    {
+      "id": "dua_leo",
+      "name": "Dưa leo",
+      "price": 5,
+      "source": "vuon",
+      "stats": {
+        "t": 0,
+        "m": 2,
+        "n": 0,
+        "k": -1,
+        "d": 0
+      },
+      "process": [
+        "xay"
+      ],
+      "color": "#9BD770",
+      "unlockDay": 1,
+      "tip": "Đắp xong mắt nhìn thấy cả tương lai."
+    },
+    {
+      "id": "ca_chua",
+      "name": "Cà chua",
+      "price": 5,
+      "source": "vuon",
+      "stats": {
+        "t": 1,
+        "m": 1,
+        "n": 1,
+        "k": -1,
+        "d": 0
+      },
+      "process": [
+        "xay"
+      ],
+      "color": "#E8483B",
+      "unlockDay": 1,
+      "tip": "Làm được tí mọi thứ. Như sinh viên năm cuối."
+    },
+    {
+      "id": "nha_dam",
+      "name": "Nha đam",
+      "price": 6,
+      "source": "vuon",
+      "stats": {
+        "t": 0,
+        "m": 2,
+        "n": 1,
+        "k": -1,
+        "d": 4
+      },
+      "process": [
+        "xay"
+      ],
+      "override": {
+        "xay": {
+          "m": 3,
+          "k": 0,
+          "d": 1
+        }
+      },
+      "color": "#CFEFC1",
+      "unlockDay": 2,
+      "tip": "Nhựa vàng để nguyên thì ngứa. Xay đi má."
+    },
+    {
+      "id": "tra_xanh",
+      "name": "Lá trà xanh",
+      "price": 5,
+      "source": "vuon",
+      "stats": {
+        "t": 0,
+        "m": 1,
+        "n": 1,
+        "k": 1,
+        "d": 0
+      },
+      "process": [
+        "nghien"
+      ],
+      "override": {
+        "nghien": {
+          "k": 2
+        }
+      },
+      "color": "#6BA539",
+      "unlockDay": 2,
+      "tip": "Hiền như cục đất. Mà đất tốt."
+    },
+    {
+      "id": "nghe",
+      "name": "Nghệ tươi",
+      "price": 8,
+      "source": "cho",
+      "stats": {
+        "t": 2,
+        "m": 1,
+        "n": 0,
+        "k": 0,
+        "d": 3
+      },
+      "process": [
+        "nghien"
+      ],
+      "color": "#F2A900",
+      "unlockDay": 1,
+      "tip": "Trị thâm. Giờ cả mặt là một vết thâm vàng."
+    },
+    {
+      "id": "chanh",
+      "name": "Chanh",
+      "price": 4,
+      "source": "cho",
+      "stats": {
+        "t": 2,
+        "m": -1,
+        "n": 0,
+        "k": 2,
+        "d": 5
+      },
+      "process": [
+        "nghien"
+      ],
+      "color": "#D8F06A",
+      "unlockDay": 1,
+      "tip": "Làm trắng. Trắng ra viện."
+    },
+    {
+      "id": "mat_ong",
+      "name": "Mật ong",
+      "price": 12,
+      "source": "cho",
+      "stats": {
+        "t": 0,
+        "m": 2,
+        "n": 0,
+        "k": -2,
+        "d": 0
+      },
+      "process": [],
+      "color": "#E6A12E",
+      "unlockDay": 2,
+      "tip": "Da mịn. Kiến cũng mịn theo."
+    },
+    {
+      "id": "bot_gao",
+      "name": "Bột gạo",
+      "price": 6,
+      "source": "cho",
+      "stats": {
+        "t": 2,
+        "m": -1,
+        "n": 0,
+        "k": 1,
+        "d": 0
+      },
+      "process": [
+        "xay"
+      ],
+      "color": "#F7F3EA",
+      "unlockDay": 2,
+      "tip": "Trắng kiểu bà ngoại. Hơi sần kiểu bà ngoại."
+    },
+    {
+      "id": "nuoc_vo_gao",
+      "name": "Nước vo gạo",
+      "price": 1,
+      "source": "cho",
+      "stats": {
+        "t": 1,
+        "m": -1,
+        "n": 0,
+        "k": -1,
+        "d": 0
+      },
+      "process": [],
+      "color": "#F1EEE6",
+      "unlockDay": 1,
+      "tip": "Rẻ nhất tiệm. Mẹ hỏi gạo đâu."
+    },
+    {
+      "id": "trung",
+      "name": "Lòng trắng trứng",
+      "price": 6,
+      "source": "cho",
+      "stats": {
+        "t": 0,
+        "m": 3,
+        "n": 0,
+        "k": 1,
+        "d": 2
+      },
+      "process": [
+        "xay"
+      ],
+      "override": {
+        "xay": {
+          "m": 4
+        }
+      },
+      "heatExtraDoc": 10,
+      "color": "#FFFDF2",
+      "unlockDay": 3,
+      "tip": "Se khít lỗ chân lông, nở toang lỗ mũi vì tanh."
+    },
+    {
+      "id": "phen_chua",
+      "name": "Phèn chua",
+      "price": 6,
+      "source": "cho",
+      "stats": {
+        "t": 0,
+        "m": 3,
+        "n": 0,
+        "k": 2,
+        "d": 6
+      },
+      "process": [
+        "nghien"
+      ],
+      "color": "#EAF4F7",
+      "unlockDay": 3,
+      "tip": "Se khít mạnh nhất nhóm rẻ. Rát cũng mạnh nhất."
+    },
+    {
+      "id": "kem_danh_rang",
+      "name": "Kem đánh răng",
+      "price": 8,
+      "source": "cho",
+      "stats": {
+        "t": 1,
+        "m": 0,
+        "n": 0,
+        "k": 3,
+        "d": 5
+      },
+      "process": [],
+      "color": "#7FD3E8",
+      "unlockDay": 3,
+      "tip": "Mẹo dân gian. Bôi xong miệng thơm, mặt rát."
+    },
+    {
+      "id": "dat_set",
+      "name": "Đất sét trắng",
+      "price": 9,
+      "source": "cho",
+      "stats": {
+        "t": 1,
+        "m": -1,
+        "n": 2,
+        "k": 2,
+        "d": 1
+      },
+      "process": [],
+      "color": "#DCD3C8",
+      "unlockDay": 2,
+      "tip": "Che nắng rẻ. Che luôn cả nhan sắc."
+    },
+    {
+      "id": "phan_rom",
+      "name": "Phấn rôm",
+      "price": 10,
+      "source": "cho",
+      "stats": {
+        "t": 1,
+        "m": 1,
+        "n": 0,
+        "k": 4,
+        "d": 3
+      },
+      "process": [],
+      "color": "#FFFFFF",
+      "unlockDay": 4,
+      "tip": "Khô ráo như sa mạc. Thơm như em bé."
+    },
+    {
+      "id": "kcn_xin",
+      "name": "Kem chống nắng xách tay",
+      "price": 18,
+      "source": "mang",
+      "stats": {
+        "t": 0,
+        "m": 0,
+        "n": 4,
+        "k": -1,
+        "d": 1
+      },
+      "process": [],
+      "color": "#FFE9C9",
+      "unlockDay": 2,
+      "tip": "Hàng auth, bill đầy đủ. Bill ghi tiếng gì không ai đọc được."
+    },
+    {
+      "id": "kcn_dom",
+      "name": "Kem chống nắng \"Sun Pờ-rồ\"",
+      "price": 3,
+      "source": "si",
+      "stats": {
+        "t": 0,
+        "m": 0,
+        "n": 4,
+        "k": -1,
+        "d": 4
+      },
+      "process": [],
+      "fake": true,
+      "suspicion": 5,
+      "sideEffect": 2,
+      "color": "#FFE0B0",
+      "unlockDay": 5,
+      "tip": "Giống y hàng xách tay. Rẻ hơn 55%. Hơi mùi xăng."
+    },
+    {
+      "id": "bot_bat_tong",
+      "name": "Bột Bật Tông",
+      "price": 20,
+      "source": "mang",
+      "stats": {
+        "t": 4,
+        "m": 0,
+        "n": -1,
+        "k": 0,
+        "d": 2
+      },
+      "process": [],
+      "color": "#FDFDFF",
+      "unlockDay": 3,
+      "tip": "Trắng mạnh nhất tiệm mà vẫn lành. Giá cũng bật tông."
+    },
+    {
+      "id": "bot_trang_dom",
+      "name": "Bột trắng không nhãn",
+      "price": 3,
+      "source": "si",
+      "stats": {
+        "t": 4,
+        "m": 0,
+        "n": -1,
+        "k": 0,
+        "d": 5
+      },
+      "process": [],
+      "fake": true,
+      "suspicion": 6,
+      "sideEffect": 2,
+      "color": "#F4F9FF",
+      "unlockDay": 5,
+      "tip": "Không nhãn, không nguồn, không lương tâm."
+    },
+    {
+      "id": "oc_sen",
+      "name": "Tinh chất ốc sên",
+      "price": 18,
+      "source": "mang",
+      "stats": {
+        "t": 0,
+        "m": 4,
+        "n": 0,
+        "k": -1,
+        "d": 0
+      },
+      "process": [],
+      "color": "#E8E2F2",
+      "unlockDay": 3,
+      "tip": "Mịn mạnh nhất, không độc. Ốc sên không đồng ý."
+    },
+    {
+      "id": "collagen_dom",
+      "name": "Collagen gói chữ lạ",
+      "price": 3,
+      "source": "si",
+      "stats": {
+        "t": 0,
+        "m": 4,
+        "n": 0,
+        "k": -1,
+        "d": 4
+      },
+      "process": [],
+      "fake": true,
+      "suspicion": 5,
+      "sideEffect": 1,
+      "color": "#FFC2D6",
+      "unlockDay": 5,
+      "tip": "Chữ trên gói không phải tiếng của nước nào."
+    }
+  ],
+  "bases": [
+    {
+      "id": "kem_tron",
+      "name": "Cốt kem trơn",
+      "price": 15,
+      "stats": {
+        "t": 1,
+        "m": 2,
+        "n": 0,
+        "k": 2,
+        "d": 0
+      },
+      "capacity": 5,
+      "color": "#FFF6EE",
+      "unlockDay": 1,
+      "tip": "Đa dụng. Như cơm trắng."
+    },
+    {
+      "id": "sap_ne",
+      "name": "Sáp nẻ",
+      "price": 12,
+      "stats": {
+        "t": 0,
+        "m": 3,
+        "n": 1,
+        "k": 0,
+        "d": 0
+      },
+      "capacity": 4,
+      "color": "#FFF3C4",
+      "unlockDay": 1,
+      "tip": "Rẻ, mịn sẵn, mà hũ nhỏ."
+    },
+    {
+      "id": "sua_duong",
+      "name": "Sữa dưỡng thể",
+      "price": 18,
+      "stats": {
+        "t": 1,
+        "m": 1,
+        "n": 0,
+        "k": 4,
+        "d": 0
+      },
+      "capacity": 5,
+      "color": "#FFE4EE",
+      "unlockDay": 2,
+      "tip": "Ráo sẵn. Hợp da dầu chiên được trứng."
+    },
+    {
+      "id": "gel_nha_dam",
+      "name": "Gel nha đam",
+      "price": 15,
+      "stats": {
+        "t": 0,
+        "m": 2,
+        "n": 0,
+        "k": 3,
+        "d": 0
+      },
+      "capacity": 5,
+      "color": "#D9F5D0",
+      "unlockDay": 3,
+      "tip": "Mát lạnh. Xanh lét."
+    },
+    {
+      "id": "kem_thung",
+      "name": "Kem hàng thùng",
+      "price": 4,
+      "stats": {
+        "t": 2,
+        "m": 2,
+        "n": 1,
+        "k": 2,
+        "d": 2
+      },
+      "capacity": 6,
+      "fake": true,
+      "suspicion": 3,
+      "sideEffect": 1,
+      "color": "#FFFFFF",
+      "unlockDay": 5,
+      "tip": "Thùng 20 ký, không ghi gì. Mở ra nghe mùi sơn."
+    }
+  ],
+  "combos": [
+    {
+      "ids": [
+        "chanh",
+        "kem_danh_rang"
+      ],
+      "d": 8,
+      "fx": "nui_lua",
+      "name": "Núi lửa bọt"
+    },
+    {
+      "ids": [
+        "phen_chua",
+        "kem_danh_rang"
+      ],
+      "d": 6,
+      "fx": "khoi",
+      "name": "Rát như bỏng"
+    },
+    {
+      "ids": [
+        "chanh",
+        "mat_ong"
+      ],
+      "d": -3,
+      "fx": "lap_lanh",
+      "name": "Bài thuốc bà ngoại"
+    },
+    {
+      "ids": [
+        "dua_leo",
+        "nha_dam"
+      ],
+      "m": 1,
+      "fx": "lap_lanh",
+      "name": "Mát lạnh"
+    }
+  ],
+  "rules": {
+    "statMax": 10,
+    "docMax": 15,
+    "overuseCount": 3,
+    "overuseDoc": 3,
+    "fakeClashDoc": 6,
+    "heatDocDivisor": 2
+  }
+}

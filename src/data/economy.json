@@ -1,0 +1,335 @@
+{
+  "startMoney": 120,
+  "startStock": {
+    "kem_tron": 5,
+    "sap_ne": 4,
+    "dua_leo": 5,
+    "ca_chua": 5,
+    "nghe": 3,
+    "chanh": 6,
+    "nuoc_vo_gao": 8
+  },
+  "rent": [
+    0,
+    20,
+    25,
+    25,
+    30,
+    30,
+    35,
+    35,
+    35,
+    40,
+    40
+  ],
+  "customersPerDay": [
+    0,
+    4,
+    4,
+    4,
+    5,
+    5,
+    5,
+    6,
+    6,
+    6,
+    6
+  ],
+  "debts": [
+    {
+      "day": 5,
+      "amount": 300,
+      "name": "Hụi chị Bảy (kỳ 1)"
+    },
+    {
+      "day": 10,
+      "amount": 1000,
+      "name": "Hụi chị Bảy (kỳ 2)"
+    }
+  ],
+  "unlocks": {
+    "mortar": 2,
+    "phone": 2,
+    "live": 3,
+    "garden": 3,
+    "blender": 4,
+    "book": 4,
+    "stove": 5,
+    "si": 5,
+    "inspector": 6
+  },
+  "vendors": [
+    {
+      "id": "co_sau",
+      "name": "Cô Sáu chợ",
+      "sells": [
+        "dua_leo",
+        "ca_chua",
+        "nha_dam",
+        "tra_xanh",
+        "nghe",
+        "chanh",
+        "mat_ong",
+        "bot_gao",
+        "nuoc_vo_gao",
+        "trung",
+        "phen_chua",
+        "kem_danh_rang",
+        "dat_set",
+        "phan_rom"
+      ],
+      "patience": [
+        3.2,
+        4.8
+      ],
+      "color": "#FF8A3D",
+      "acc": [
+        "non_la"
+      ],
+      "unlockDay": 2
+    },
+    {
+      "id": "anh_teo",
+      "name": "Anh Tèo xách tay",
+      "sells": [
+        "kem_tron",
+        "sap_ne",
+        "sua_duong",
+        "gel_nha_dam",
+        "kcn_xin",
+        "bot_bat_tong",
+        "oc_sen"
+      ],
+      "patience": [
+        2.8,
+        4.4
+      ],
+      "color": "#6CC3F0",
+      "acc": [
+        "kinh_ram",
+        "vong_vang"
+      ],
+      "unlockDay": 2
+    },
+    {
+      "id": "shop_si",
+      "name": "Shop Sỉ Giá Gốc",
+      "sells": [
+        "kem_thung",
+        "kcn_dom",
+        "bot_trang_dom",
+        "collagen_dom"
+      ],
+      "patience": [
+        4.0,
+        5.6
+      ],
+      "color": "#B9A3F0",
+      "acc": [
+        "khau_trang",
+        "mu_phot"
+      ],
+      "unlockDay": 5
+    }
+  ],
+  "openers": {
+    "co_sau": [
+      {
+        "text": "Cô ơi con mới mở tiệm, nợ ngập đầu…",
+        "eff": "like",
+        "reply": "Trời ơi tội nghiệp con nhỏ… thôi cô bớt cho."
+      },
+      {
+        "text": "Cô Sáu tính con giá mối quen nha.",
+        "eff": "meh",
+        "reply": "Quen thì quen, giá vẫn vậy nha con."
+      },
+      {
+        "text": "Chợ bên kia bán rẻ hơn cô á.",
+        "eff": "bad",
+        "reply": "Rẻ thì qua bển mua đi, gọi cô chi!"
+      }
+    ],
+    "anh_teo": [
+      {
+        "text": "Anh Tèo ơi, bên kia báo giá rẻ hơn á.",
+        "eff": "like",
+        "reply": "Bên kia rẻ hơn hả? Thôi anh theo giá luôn!"
+      },
+      {
+        "text": "Anh ơi em lấy nhiều, bớt chút đi.",
+        "eff": "meh",
+        "reply": "Em nói vậy anh buồn á."
+      },
+      {
+        "text": "Hàng anh auth thiệt không vậy?",
+        "eff": "bad",
+        "reply": "Nghi ngờ anh là anh không bớt nha!"
+      }
+    ],
+    "shop_si": [
+      {
+        "text": "Shop ơi em lấy sỉ, lấy hoài luôn.",
+        "eff": "like",
+        "reply": "[Tự động] Khách sỉ được chiết khấu đặc biệt."
+      },
+      {
+        "text": "Alo shop, có ai nghe máy không?",
+        "eff": "meh",
+        "reply": "[Tự động] Vui lòng giữ máy…"
+      },
+      {
+        "text": "Shop xuất hoá đơn đỏ cho em nha.",
+        "eff": "bad",
+        "reply": "[Tự động] Yêu cầu không hợp lệ. Hệ thống đang theo dõi."
+      }
+    ]
+  },
+  "haggle": {
+    "dropPerHalfSec": 0.03,
+    "maxDrop": 0.3,
+    "failPenalty": 0.1,
+    "likedBonus": 0.3,
+    "warnLead": 1.0,
+    "badPenalty": 0.35
+  },
+  "seeds": [
+    {
+      "id": "dua_leo",
+      "price": 6,
+      "days": 2,
+      "yield": 3,
+      "regrow": 2
+    },
+    {
+      "id": "ca_chua",
+      "price": 8,
+      "days": 3,
+      "yield": 3,
+      "regrow": 2
+    },
+    {
+      "id": "nha_dam",
+      "price": 10,
+      "days": 3,
+      "yield": 2,
+      "regrow": 3
+    },
+    {
+      "id": "tra_xanh",
+      "price": 6,
+      "days": 2,
+      "yield": 3,
+      "regrow": 0
+    }
+  ],
+  "potPrice": 30,
+  "maxPots": 6,
+  "startPots": 2,
+  "suspicion": {
+    "warn": 35,
+    "inspect": 60,
+    "raid": 100,
+    "cleanDay": -8,
+    "oneStar": 5,
+    "oneStarFake": 10,
+    "refund": 3,
+    "fiveStarGarden": -2,
+    "greedMult": 1.5,
+    "greedRatio": 3,
+    "liveDiv": 1000
+  },
+  "live": {
+    "decay": 1.5,
+    "boredAfter": 10,
+    "boredDecay": 3,
+    "viewerFollow": 0.4,
+    "viewerHypeBase": 3,
+    "viewerHypeFollow": 0.03,
+    "followGain": 0.04,
+    "followCapDay": 60,
+    "startFollowers": 20,
+    "giftChanceDiv": 4000,
+    "gifts": [
+      {
+        "id": "hoa",
+        "name": "Bông hồng",
+        "value": 1,
+        "w": 60
+      },
+      {
+        "id": "tra_sua",
+        "name": "Ly trà sữa",
+        "value": 4,
+        "w": 28
+      },
+      {
+        "id": "ky_lan",
+        "name": "Kỳ lân",
+        "value": 15,
+        "w": 10
+      },
+      {
+        "id": "xe",
+        "name": "Xe tay ga",
+        "value": 50,
+        "w": 2
+      }
+    ],
+    "giftCapRatio": 0.25,
+    "pitchEvery": 25,
+    "onlinePerFollowers": 60,
+    "onlineMax": 4
+  },
+  "upgrades": [
+    {
+      "id": "ring",
+      "name": "Đèn ring xịn",
+      "price": 120,
+      "desc": "Mắt xem ×1,3",
+      "day": 2
+    },
+    {
+      "id": "thau_to",
+      "name": "Thau inox to",
+      "price": 90,
+      "desc": "+1 chỗ trong mọi cốt",
+      "day": 3
+    },
+    {
+      "id": "may_xay_xin",
+      "name": "Máy xay xịn",
+      "price": 140,
+      "desc": "Xay nhanh gấp đôi, không bốc khói",
+      "day": 3
+    },
+    {
+      "id": "binh_xit",
+      "name": "Bình chữa cháy",
+      "price": 60,
+      "desc": "Đun quá tay không cháy mẻ",
+      "day": 4
+    },
+    {
+      "id": "sim2",
+      "name": "Sim 2 số",
+      "price": 80,
+      "desc": "Trả giá mỗi mối 2 lần/ngày",
+      "day": 4
+    },
+    {
+      "id": "giay_cong_bo",
+      "name": "Giấy công bố mỹ phẩm",
+      "price": 300,
+      "desc": "Nghi ngờ tăng ×0,7",
+      "day": 5
+    },
+    {
+      "id": "bien_led",
+      "name": "Biển hiệu đèn LED",
+      "price": 200,
+      "desc": "+1 khách mỗi ngày",
+      "day": 6
+    }
+  ]
+}

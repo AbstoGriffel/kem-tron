@@ -1,0 +1,586 @@
+{
+  "orders": [
+    {
+      "id": "me",
+      "minDay": 1,
+      "special": "me",
+      "clarity": 1,
+      "say": "Con trộn thử cho mẹ hũ {trắng lên chút|t} coi. Mẹ đi đám giỗ.",
+      "clear": "Trắng 4–6 nấc là mẹ chịu.",
+      "target": {
+        "t": [
+          4,
+          6
+        ]
+      },
+      "budget": 0,
+      "gu": "re",
+      "sex": "f"
+    },
+    {
+      "id": "trang_1",
+      "minDay": 1,
+      "clarity": 1,
+      "say": "{Trắng lên một tông|t} thôi em, cho đỡ đen nhẻm.",
+      "clear": "Trắng 4–6 nấc.",
+      "target": {
+        "t": [
+          4,
+          6
+        ]
+      },
+      "budget": 32,
+      "gu": "re",
+      "sex": "f"
+    },
+    {
+      "id": "trang_3",
+      "minDay": 1,
+      "clarity": 1,
+      "say": "{Bật 3 tông|t} cho chồng nhận không ra luôn!",
+      "clear": "Trắng 7–9 nấc.",
+      "target": {
+        "t": [
+          7,
+          9
+        ]
+      },
+      "budget": 42,
+      "gu": "song_ao",
+      "sex": "f"
+    },
+    {
+      "id": "lo_chan_long",
+      "minDay": 1,
+      "clarity": 1,
+      "say": "Lỗ chân lông to như ổ gà, {se lại|m} giùm chị.",
+      "clear": "Mịn 6–8 nấc.",
+      "target": {
+        "m": [
+          6,
+          8
+        ]
+      },
+      "budget": 30,
+      "gu": "re",
+      "sex": "f"
+    },
+    {
+      "id": "kho_nut",
+      "minDay": 1,
+      "clarity": 1,
+      "say": "Da khô nứt như ruộng hạn, {dưỡng ẩm|k-} với {mịn|m} giùm em.",
+      "clear": "Mịn 6–8, Khô ráo 0–2 (càng ẩm càng tốt).",
+      "target": {
+        "m": [
+          6,
+          8
+        ],
+        "k": [
+          0,
+          2
+        ]
+      },
+      "budget": 30,
+      "gu": "thien_nhien"
+    },
+    {
+      "id": "thom_thoi",
+      "minDay": 1,
+      "clarity": 2,
+      "say": "Chỉ cần thơm thôi, {trắng là chồng nghi|t-}.",
+      "clear": "Trắng 0–2 thôi, đừng trắng.",
+      "target": {
+        "t": [
+          0,
+          2
+        ]
+      },
+      "budget": 24,
+      "gu": "re",
+      "sex": "f"
+    },
+    {
+      "id": "trang_su",
+      "minDay": 2,
+      "clarity": 2,
+      "say": "Muốn {trắng như sứ Bát Tràng|t}, càng trắng càng tốt!",
+      "clear": "Trắng 9–10 nấc.",
+      "target": {
+        "t": [
+          9,
+          10
+        ]
+      },
+      "budget": 52,
+      "gu": "song_ao"
+    },
+    {
+      "id": "em_be",
+      "minDay": 2,
+      "clarity": 2,
+      "say": "{Mịn như da em bé|m}. Em bé thiệt á.",
+      "clear": "Mịn 8–10 nấc.",
+      "target": {
+        "m": [
+          8,
+          10
+        ]
+      },
+      "budget": 36,
+      "gu": "thien_nhien"
+    },
+    {
+      "id": "di_cho",
+      "minDay": 2,
+      "clarity": 2,
+      "say": "{Đi chợ 15 phút|n} thôi mà sợ đen.",
+      "clear": "Che nắng 2–4 nấc.",
+      "target": {
+        "n": [
+          2,
+          4
+        ]
+      },
+      "budget": 30,
+      "gu": "re"
+    },
+    {
+      "id": "di_bien",
+      "minDay": 2,
+      "clarity": 2,
+      "say": "Cuối tuần {đi biển 3 ngày 2 đêm|n} với bồ nè.",
+      "clear": "Che nắng 5–7 nấc.",
+      "target": {
+        "n": [
+          5,
+          7
+        ]
+      },
+      "budget": 58,
+      "gu": "song_ao"
+    },
+    {
+      "id": "kho_lien",
+      "minDay": 2,
+      "clarity": 2,
+      "say": "Bôi xong là {khô liền|k}, đừng có bết dính nha.",
+      "clear": "Khô ráo 6–8 nấc.",
+      "target": {
+        "k": [
+          6,
+          8
+        ]
+      },
+      "budget": 40,
+      "gu": "re"
+    },
+    {
+      "id": "trang_khong_nhon",
+      "minDay": 2,
+      "clarity": 2,
+      "say": "{Trắng 2 tông|t} mà {đừng nhờn như mỡ|k}.",
+      "clear": "Trắng 5–7, Khô ráo 5–7.",
+      "target": {
+        "t": [
+          5,
+          7
+        ],
+        "k": [
+          5,
+          7
+        ]
+      },
+      "budget": 42,
+      "gu": "song_ao"
+    },
+    {
+      "id": "sinh_vien",
+      "minDay": 2,
+      "clarity": 2,
+      "special": "sinh_vien",
+      "say": "Em sinh viên, có nhiêu đây thôi. {Mịn xíu|m} là được.",
+      "clear": "Mịn 4–6 nấc, rẻ.",
+      "target": {
+        "m": [
+          4,
+          6
+        ]
+      },
+      "budget": 26,
+      "gu": "re"
+    },
+    {
+      "id": "da_dau",
+      "minDay": 3,
+      "clarity": 3,
+      "say": "Da dầu {chiên được trứng|k}, mụn thì {lổm ngổm|m}.",
+      "clear": "Mịn 5–7, Khô ráo 7–9.",
+      "target": {
+        "m": [
+          5,
+          7
+        ],
+        "k": [
+          7,
+          9
+        ]
+      },
+      "budget": 52,
+      "gu": "re"
+    },
+    {
+      "id": "trang_nang",
+      "minDay": 3,
+      "clarity": 2,
+      "say": "Vừa {trắng|t} vừa {chống nắng|n}, combo tiết kiệm nha shop.",
+      "clear": "Trắng 5–7, Che nắng 4–6.",
+      "target": {
+        "t": [
+          5,
+          7
+        ],
+        "n": [
+          4,
+          6
+        ]
+      },
+      "budget": 58,
+      "gu": "re"
+    },
+    {
+      "id": "cuoi",
+      "minDay": 3,
+      "clarity": 3,
+      "say": "Mai em cưới rồi! Phải {lên hình thiệt sáng|t} mà {láng o|m}.",
+      "clear": "Trắng 6–8, Mịn 7–9.",
+      "target": {
+        "t": [
+          6,
+          8
+        ],
+        "m": [
+          7,
+          9
+        ]
+      },
+      "budget": 62,
+      "gu": "sang",
+      "sex": "f"
+    },
+    {
+      "id": "tu_nhien",
+      "minDay": 3,
+      "clarity": 3,
+      "say": "Tự nhiên thôi, {không trắng|t-}, mà {se khít|m} nha.",
+      "clear": "Trắng 0–3, Mịn 6–8.",
+      "target": {
+        "t": [
+          0,
+          3
+        ],
+        "m": [
+          6,
+          8
+        ]
+      },
+      "budget": 34,
+      "gu": "thien_nhien"
+    },
+    {
+      "id": "grab",
+      "minDay": 3,
+      "clarity": 3,
+      "say": "Anh chạy xe ôm {cả ngày ngoài đường|n}, cần {khô ráo|k}, đừng thơm quá vợ nghi.",
+      "clear": "Che nắng 4–6, Khô ráo 6–8.",
+      "target": {
+        "n": [
+          4,
+          6
+        ],
+        "k": [
+          6,
+          8
+        ]
+      },
+      "budget": 62,
+      "gu": "re",
+      "sex": "m"
+    },
+    {
+      "id": "mua_dong",
+      "minDay": 3,
+      "clarity": 3,
+      "say": "{Trắng nhẹ|t} thôi, mà {ẩm mượt|k-} nha. Mùa đông mà.",
+      "clear": "Trắng 3–5, Khô ráo 0–3.",
+      "target": {
+        "t": [
+          3,
+          5
+        ],
+        "k": [
+          0,
+          3
+        ]
+      },
+      "budget": 30,
+      "gu": "thien_nhien"
+    },
+    {
+      "id": "ha_giang",
+      "minDay": 4,
+      "clarity": 3,
+      "say": "Đi phượt Hà Giang, {nắng cháy da|n}, {mồ hôi như tắm|k}.",
+      "clear": "Che nắng 6–8, Khô ráo 5–7.",
+      "target": {
+        "n": [
+          6,
+          8
+        ],
+        "k": [
+          5,
+          7
+        ]
+      },
+      "budget": 66,
+      "gu": "re"
+    },
+    {
+      "id": "body_bien",
+      "minDay": 4,
+      "clarity": 3,
+      "say": "Kem body đi biển: phải {trắng|t}, phải {che nắng|n}, phải {ráo|k}!",
+      "clear": "Trắng 6–8, Che nắng 5–7, Khô ráo 4–6.",
+      "target": {
+        "t": [
+          6,
+          8
+        ],
+        "n": [
+          5,
+          7
+        ],
+        "k": [
+          4,
+          6
+        ]
+      },
+      "budget": 72,
+      "gu": "song_ao"
+    },
+    {
+      "id": "bon_trong_mot",
+      "minDay": 5,
+      "clarity": 3,
+      "say": "Một hũ cân hết, {4 trong 1|t} như dầu gội đầu.",
+      "clear": "Trắng 4–6, Mịn 5–7, Che nắng 3–5, Khô ráo 4–6.",
+      "target": {
+        "t": [
+          4,
+          6
+        ],
+        "m": [
+          5,
+          7
+        ],
+        "n": [
+          3,
+          5
+        ],
+        "k": [
+          4,
+          6
+        ]
+      },
+      "budget": 66,
+      "gu": "re"
+    },
+    {
+      "id": "nhay_cam_trang",
+      "minDay": 3,
+      "clarity": 2,
+      "special": "nhay_cam",
+      "say": "Da chị {nhạy cảm lắm|d}, đụng gì cũng đỏ. Mà vẫn muốn {trắng 3 tông|t} nha.",
+      "clear": "Trắng 7–9, Độc tối đa 3.",
+      "target": {
+        "t": [
+          7,
+          9
+        ],
+        "maxDoc": 3
+      },
+      "budget": 58,
+      "gu": "sang",
+      "sex": "f"
+    },
+    {
+      "id": "nhay_cam_min",
+      "minDay": 3,
+      "clarity": 2,
+      "special": "nhay_cam",
+      "say": "Bôi gì cũng ngứa ({da mỏng như giấy|d}). Làm {mịn mịn|m} thôi em.",
+      "clear": "Mịn 6–8, Độc tối đa 3.",
+      "target": {
+        "m": [
+          6,
+          8
+        ],
+        "maxDoc": 3
+      },
+      "budget": 40,
+      "gu": "thien_nhien"
+    },
+    {
+      "id": "vip_trang",
+      "minDay": 5,
+      "clarity": 2,
+      "special": "vip",
+      "say": "Chị chủ tiệm vàng nè. {Trắng phát sáng|t}, {mịn như lụa|m}. Tiền không thành vấn đề.",
+      "clear": "Trắng 8–10, Mịn 7–9.",
+      "target": {
+        "t": [
+          8,
+          10
+        ],
+        "m": [
+          7,
+          9
+        ]
+      },
+      "budget": 120,
+      "gu": "sang",
+      "sex": "f"
+    },
+    {
+      "id": "bay_5_tong",
+      "minDay": 4,
+      "clarity": 2,
+      "special": "bay",
+      "say": "Bạn trai chê đen. Chị cần {bật 5 tông trong 3 ngày|t}, {mịn|m} nữa. Trả gấp ba!",
+      "clear": "Trắng 10, Mịn 7–9. Budget cao mà mẻ đắt.",
+      "target": {
+        "t": [
+          10,
+          10
+        ],
+        "m": [
+          7,
+          9
+        ]
+      },
+      "budget": 96,
+      "gu": "song_ao",
+      "sex": "f"
+    },
+    {
+      "id": "thanh_tra",
+      "minDay": 5,
+      "clarity": 2,
+      "special": "thanh_tra",
+      "say": "Cho anh một hũ {trắng|t} với. À mà... {giấy phép|d} của em đâu?",
+      "clear": "Trắng 5–7. (Ông này nhìn kỹ dữ.)",
+      "target": {
+        "t": [
+          5,
+          7
+        ]
+      },
+      "budget": 40,
+      "gu": "re",
+      "sex": "m"
+    }
+  ],
+  "gus": {
+    "re": {
+      "label": "Rẻ thôi",
+      "jars": [
+        "nhua"
+      ],
+      "labels": [
+        "viet_tay"
+      ]
+    },
+    "sang": {
+      "label": "Sang chảnh",
+      "jars": [
+        "thuy_tinh",
+        "ma_vang"
+      ],
+      "labels": [
+        "decal"
+      ]
+    },
+    "song_ao": {
+      "label": "Sống ảo",
+      "jars": [
+        "ma_vang",
+        "thuy_tinh"
+      ],
+      "labels": [
+        "decal",
+        "nhap_khau"
+      ]
+    },
+    "thien_nhien": {
+      "label": "Thiên nhiên",
+      "jars": [
+        "thuy_tinh",
+        "nhua"
+      ],
+      "labels": [
+        "thien_nhien",
+        "viet_tay"
+      ]
+    }
+  },
+  "jars": [
+    {
+      "id": "nhua",
+      "name": "Hũ nhựa",
+      "price": 2,
+      "color": "#F4F1EA"
+    },
+    {
+      "id": "thuy_tinh",
+      "name": "Hũ thuỷ tinh",
+      "price": 6,
+      "color": "#BFE6F2"
+    },
+    {
+      "id": "ma_vang",
+      "name": "Hũ \"mạ vàng\"",
+      "price": 12,
+      "color": "#FFC53D",
+      "unlockDay": 3
+    }
+  ],
+  "labels": [
+    {
+      "id": "viet_tay",
+      "name": "Viết tay",
+      "price": 0,
+      "text": "kem nhà làm"
+    },
+    {
+      "id": "decal",
+      "name": "Decal xịn",
+      "price": 2,
+      "text": "TRẮNG THẦN SẦU"
+    },
+    {
+      "id": "thien_nhien",
+      "name": "100% Thiên Nhiên",
+      "price": 2,
+      "text": "100% THIÊN NHIÊN",
+      "natureClaim": true
+    },
+    {
+      "id": "nhap_khau",
+      "name": "\"Nhập khẩu\"",
+      "price": 4,
+      "text": "WHITTE MAGIC KREAM",
+      "suspicion": 2,
+      "unlockDay": 4
+    }
+  ]
+}

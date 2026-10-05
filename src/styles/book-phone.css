@@ -1,0 +1,135 @@
+/* ===== Sổ bí kíp (book.ts) — đè rule cũ trong base.css bằng tiền tố .book-modal.bk2 ===== */
+.book-modal.bk2 { gap: 0; perspective: none; }
+.bk2 .bk-stage { position: relative; padding-bottom: 6px; }
+.bk2 .book {
+  position: relative; height: 430px; min-height: 0; box-sizing: border-box;
+  perspective: 1200px; transform-style: preserve-3d; touch-action: pan-y; user-select: none; -webkit-user-select: none;
+}
+.bk2 .book > .bk-left, .bk2 .book > .bk-right { min-width: 0; overflow: hidden; }
+
+/* nút lật trang: ô vuông bo góc nền trắng, chồng lên mép dưới 2 góc sổ */
+.bk2 .bk-turn {
+  position: absolute; bottom: -18px; z-index: 5; width: 46px; height: 46px; padding: 0;
+  display: grid; place-items: center; background: #FFFDF6; border: 3px solid var(--ink); border-radius: 10px;
+  box-shadow: 0 4px 0 var(--ink); cursor: pointer; transition: transform .08s, box-shadow .08s, opacity .15s;
+}
+.bk2 .bk-turn svg { display: block; }
+.bk2 .bk-turn.prev { left: 10px; }
+.bk2 .bk-turn.next { right: 10px; }
+.bk2 .bk-turn:not(:disabled):active { transform: translateY(3px); box-shadow: 0 1px 0 var(--ink); }
+.bk2 .bk-turn:disabled { opacity: .38; box-shadow: 0 2px 0 var(--ink); cursor: default; }
+
+/* nút đóng sổ: rộng, giữa dưới sổ */
+.book-modal.bk2 > .bk-x {
+  margin-top: 30px; width: 190px; padding: 11px 16px; font: 18px var(--f-title); color: var(--ink);
+  background: var(--yellow); border: 3px solid var(--ink); border-radius: 14px; box-shadow: 0 4px 0 var(--ink); cursor: pointer;
+}
+.book-modal.bk2 > .bk-x:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--ink); }
+
+/* hoạt cảnh lật trang */
+.bk2 .bk-leaf, .bk2 .bk-under, .bk2 .bk-cast { position: absolute; pointer-events: none; }
+.bk2 .bk-leaf { z-index: 4; transform-style: preserve-3d; }
+.bk2 .bk-leaf.to-left { transform-origin: 0 50%; }
+.bk2 .bk-leaf.to-right { transform-origin: 100% 50%; }
+.bk2 .bk-under { z-index: 2; }
+.bk2 .bk-cast { z-index: 3; }
+.bk2 .bk-cast.from-left { background: linear-gradient(90deg, rgba(42,26,22,.55), rgba(42,26,22,0) 70%); }
+.bk2 .bk-cast.from-right { background: linear-gradient(270deg, rgba(42,26,22,.55), rgba(42,26,22,0) 70%); }
+.bk2 .bk-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.bk2 .bk-face.back { transform: rotateY(180deg); }
+.bk2 .bk-face > .bk-left, .bk2 .bk-face > .bk-right { box-sizing: border-box; width: 100%; height: 100%; overflow: hidden; }
+.bk2 .bk-face .bk-shade { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
+.bk2 .bk-leaf.to-left .front .bk-shade, .bk2 .bk-leaf.to-right .back .bk-shade { background: linear-gradient(90deg, rgba(42,26,22,.5), rgba(42,26,22,.08)); }
+.bk2 .bk-leaf.to-left .back .bk-shade, .bk2 .bk-leaf.to-right .front .bk-shade { background: linear-gradient(270deg, rgba(42,26,22,.5), rgba(42,26,22,.08)); }
+.bk2 .bk-under .bk-shade { background: rgba(42,26,22,.6); }
+.bk2 .bk-face .bk-left { border-radius: 6px 0 0 6px; }
+.bk2 .bk-face .bk-right { border-radius: 0 6px 6px 0; }
+
+/* ===== Sạp hàng gọi mối (phone.ts) — ô chữ nhật đều nhau ===== */
+.call-list.sap.sap2 { grid-auto-rows: 146px; align-items: stretch; gap: 8px; }
+.call-list.sap.sap2 .cl-row {
+  border-radius: 6px; border-width: 2.5px; border-bottom-width: 2.5px; box-shadow: 0 3px 0 var(--ink);
+  padding: 6px 4px 6px; justify-content: space-between; box-sizing: border-box; height: calc(100% - 3px); overflow: hidden;
+}
+.call-list.sap.sap2 .cl-row .plus { margin-top: 6px; }
+.call-list.sap.sap2 .cl-row .minus {
+  position: absolute; left: 5px; top: 5px; width: 26px; height: 26px; padding: 0; margin: 0;
+  border-radius: 50%; border: 2.5px solid var(--ink); background: #fff; box-shadow: 0 2px 0 var(--ink);
+  font-size: 0; line-height: 0; z-index: 2;
+}
+.call-list.sap.sap2 .cl-row .minus > i {
+  position: absolute; left: 50%; top: 50%; width: 11px; height: 3px; margin: -1.5px 0 0 -5.5px;
+  background: var(--ink); border-radius: 2px;
+}
+.call-list.sap.sap2 .cl-row .minus:active { transform: translateY(2px); box-shadow: 0 0 0 var(--ink); }
+.call-list.sap.sap2 .cl-row:not(.picked) .minus { display: none; }
+.call-list.sap.sap2 .cl-row .qty { right: 6px; top: 5px; font: 16px/1 var(--f-title); transform: rotate(8deg); }
+
+/* sạp hàng: ẩn scrollbar mặc định, thay bằng viên bo góc mờ */
+.cl-wrap { position: relative; }
+.cl-wrap .call-list { scrollbar-width: none; }
+.cl-wrap .call-list::-webkit-scrollbar { display: none; }
+.cl-thumb { position: absolute; right: 3px; top: 0; width: 6px; border-radius: 99px; background: rgba(42, 26, 22, .28); box-shadow: 0 0 0 1.5px rgba(255, 248, 230, .7); pointer-events: none; }
+.call-list.sap.sap2 .cl-row { cursor: pointer; }
+.call-list.sap.sap2 .cl-row:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--ink); }
+
+/* ===== Sổ bí kíp v3 (Figma frame 19): sổ mở dọc — trang trên chỉ số, trang dưới thẻ nguyên liệu ===== */
+.bk2 .book { flex-direction: column; width: 370px; height: 430px; padding: 10px; gap: 0; box-shadow: 6px 8px 0 rgba(0,0,0,.35); }
+.bk2 .bk-top, .bk2 .bk-bot { position: relative; box-sizing: border-box; background: #FFF8E6; border: 2px solid var(--ink); overflow: hidden; font: 700 13px/1.35 var(--f-body); }
+.bk2 .bk-top { flex: none; height: 192px; border-radius: 6px 0 0 6px; padding: 12px 14px 0 12px; }
+.bk2 .bk-bot { flex: 1 1 auto; margin-top: -2px; border-radius: 0 6px 6px 0; }
+.bk2 .bk-head { display: flex; align-items: center; justify-content: space-between; height: 28px; }
+.bk2 .bk-name { display: flex; align-items: center; gap: 5px; padding: 0; border: 0; background: none; cursor: text; font: 17px/1.1 var(--f-title); color: #8E5A36; text-align: left; max-width: 260px; }
+.bk2 .bk-pen { flex: none; opacity: .85; }
+.bk2 .bk-name-in { width: 240px; font: 17px/1.1 var(--f-title); color: #8E5A36; background: #fff; border: 2px solid var(--ink); border-radius: 6px; padding: 2px 6px; outline: none; }
+.bk2 .bk-no { font: 13px var(--f-title); color: var(--red); text-align: right; }
+.bk2 .bk-body { display: flex; align-items: flex-start; }
+.bk2 .bk-jar { flex: none; width: 119px; margin: 10px 0 0 1px; text-align: center; }
+.bk2 .bk-jar svg { display: block; }
+.bk2 .bk-sold { margin-top: -2px; font: 700 11px/1.35 var(--f-body); color: #5A4038; }
+.bk2 .bk-bars { flex: 1; margin: 17px 0 0 -1px; }
+.bk2 .bk-bar { display: flex; align-items: center; height: 22px; font: 14px var(--f-title); }
+.bk2 .bk-bar span { width: 64px; flex: none; text-align: left; color: var(--ink); }
+.bk2 .bk-bar i { flex: none; width: 117px; height: 11px; box-sizing: border-box; border: 1px solid var(--ink); border-radius: 5px; background: linear-gradient(90deg, var(--c) var(--w), #fff var(--w)); }
+.bk2 .bk-bar b { width: 16px; margin-left: 4px; font: 10px var(--f-title); text-align: center; }
+.bk2 .bk-no2 { position: absolute; right: 15px; top: 12px; font: 13px var(--f-title); color: #8A3826; }
+.bk2 .bk-cards { display: flex; gap: 10px; padding: 40px 30px 14px 22px; overflow-x: auto; scrollbar-width: none; touch-action: pan-x; }
+.bk2 .bk-cards::-webkit-scrollbar { display: none; }
+.bk2 .bk-card { position: relative; flex: none; width: 82px; height: 111px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; padding-top: 2px; background: #8E5A36; border: 2px solid #4A2A16; border-radius: 6px; transform: rotate(-1deg); }
+.bk2 .bk-card svg { display: block; flex: none; }
+.bk2 .bk-card b { margin-top: -6px; padding: 0 3px; font: 12px/1.15 var(--f-title); color: #FFF8E6; text-transform: uppercase; text-align: center; }
+.bk2 .bk-card small { font: 10px/1.3 var(--f-title); color: #FFF8E6; }
+.bk2 .bk-card i { position: absolute; left: calc(50% - 10px); bottom: -5px; width: 20px; height: 20px; box-sizing: border-box; display: grid; place-items: center; font: 10px/1 var(--f-title); font-style: normal; color: var(--ink); background: #D4C49E; border: 2px solid var(--ink); border-radius: 50%; }
+.bk2 .bk-card.lack { background: #6E4630; }
+.bk2 .bk-card.lack i { background: var(--red); color: #fff; }
+.bk2 .bk-cards { padding-bottom: 18px; }
+.bk2 .bk-heat { position: absolute; left: 14px; top: 12px; font: 13px var(--f-title); color: var(--red); }
+.bk2 .bk-use { position: absolute; left: calc(50% - 75px); bottom: -12px; width: 146px; height: 57px; margin: 0; padding: 0 0 10px; font: 16px var(--f-title); color: var(--ink); background: #FFEDC2; border: 3px solid var(--ink); border-radius: 12px; box-shadow: 0 4px 0 var(--ink); cursor: pointer; }
+.bk2 .bk-use:active { transform: translateY(3px); }
+.bk2 .bk-use:disabled { background: #E4E0D6; color: #8A7A70; box-shadow: none; }
+.bk2 .bk-empty { padding: 14px 16px; }
+.bk2 .bk-empty .bk-h { font: 22px/1.05 var(--f-title); color: var(--red); margin-bottom: 8px; }
+.bk2 .bk-empty .bk-gen { margin-top: 30px; text-align: center; }
+/* lật theo trục ngang */
+.bk2 .bk-leaf.to-top { transform-origin: 50% 0; }
+.bk2 .bk-leaf.to-bot { transform-origin: 50% 100%; }
+.bk2 .bk-face.back { transform: rotateX(180deg); }
+.bk2 .bk-face > .bk-top, .bk2 .bk-face > .bk-bot { box-sizing: border-box; width: 100%; height: 100%; margin: 0; }
+.bk2 .bk-cast.from-top { background: linear-gradient(180deg, rgba(42,26,22,.55), rgba(42,26,22,0) 70%); }
+.bk2 .bk-cast.from-bot { background: linear-gradient(0deg, rgba(42,26,22,.55), rgba(42,26,22,0) 70%); }
+.bk2 .bk-leaf.to-top .front .bk-shade, .bk2 .bk-leaf.to-bot .back .bk-shade { background: linear-gradient(180deg, rgba(42,26,22,.5), rgba(42,26,22,.08)); }
+.bk2 .bk-leaf.to-top .back .bk-shade, .bk2 .bk-leaf.to-bot .front .bk-shade { background: linear-gradient(0deg, rgba(42,26,22,.5), rgba(42,26,22,.08)); }
+/* tinh chỉnh theo số đo frame 19 */
+.bk2 .bk-top { padding: 10px 11px 0 12px; }
+.bk2 .bk-jar { margin: 7px 0 0 -2px; }
+.bk2 .bk-bars { margin: 19px 0 0 -3px; }
+.bk2 .bk-bar span { width: 61px; }
+.bk2 .bk-bar b { margin-left: 1px; }
+.bk2 .bk-cards { padding-top: 36px; }
+.bk2 .bk-card svg { width: 72px; height: 72px; margin-top: -3px; }
+.bk2 .bk-card b { margin-top: -12px; }
+.bk2 .bk-use { left: calc(50% - 81px); bottom: -16px; }
+.bk2 .bk-card svg { margin-top: -7px; }
+.bk2 .bk-card b { margin-top: -8px; }
+.bk2 .bk-name { min-width: 0; }
+.bk2 .bk-name span { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

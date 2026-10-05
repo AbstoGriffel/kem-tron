@@ -1,0 +1,47 @@
+/* Màn tiêu đề + buổi sáng: logo dấu nặng rơi, chân trang, nút bánh răng cài đặt. */
+
+/* ---- logo: dấu nặng là 1 hình tròn rơi xuống dưới chữ Ô */
+.ts-o { position: relative; display: inline-block; }
+.ts-dot {
+  position: absolute; left: 50%; top: 0; z-index: 3;
+  width: 22px; height: 22px; box-sizing: border-box;
+  border-radius: 50%; background: var(--pink); border: 3.5px solid var(--ink);
+  box-shadow: 0 4px 0 var(--ink), inset -3px -3px 0 #E0587F;
+}
+.ts-dot::after { content: ''; position: absolute; left: 3px; top: 3px; width: 5px; height: 5px; border-radius: 50%; background: #fff; opacity: .85; }
+
+/* ---- chân trang: 2 dòng, căn giữa */
+.title-screen .ts-foot { left: 50%; right: auto; transform: translateX(-50%); width: max-content; max-width: 350px; font: 700 11.5px/1.45 var(--f-body); padding: 5px 14px; text-wrap: balance; }
+
+/* ---- nút bánh răng cài đặt (góc trên trái) */
+.gear-wrap { position: absolute; left: 12px; top: 16px; z-index: 60; }
+.gear-btn { display: block; width: 34px; height: 34px; padding: 0; border: 0; background: transparent; cursor: pointer; filter: drop-shadow(0 2px 0 var(--ink)); }
+.gear-btn svg { display: block; overflow: visible; }
+.gear-btn:active { transform: translateY(2px); filter: none; }
+.gear-pop {
+  position: absolute; left: 0; top: 44px; min-width: 168px;
+  background: var(--paper-hi); border: 3px solid var(--ink); border-radius: 14px;
+  box-shadow: 0 4px 0 var(--ink); padding: 8px 10px 10px;
+}
+.gear-pop[hidden] { display: none; }
+.gp-h { font: 16px var(--f-title); margin-bottom: 6px; }
+.gp-mute {
+  display: block; width: 100%; font: 800 14px var(--f-body); color: var(--ink);
+  background: var(--yellow); border: 2.5px solid var(--ink); border-radius: 10px;
+  box-shadow: 0 3px 0 var(--ink); padding: 7px 10px; cursor: pointer; text-align: left;
+}
+.gp-mute.off { background: #E4E0D6; }
+.gp-mute:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--ink); }
+
+/* buổi sáng: đẩy thẻ NGÀY N sang phải chừa chỗ bánh răng */
+.morning .mo-head { left: 56px; }
+
+/* theo Figma: vạch kem chảy che chân chữ TRÔN, dấu nặng đậu trên vạch kem */
+.title-screen .ts-t { position: relative; z-index: 1; }
+.title-screen .ts-drip { position: relative; z-index: 2; margin-top: -12px; rotate: 2deg; }
+
+/* thẻ NGÀY + câu chào luôn 1 dòng; tin buổi sáng nằm dưới hẳn thẻ NGÀY */
+.morning .mo-day, .morning .mo-sub { white-space: nowrap; }
+.morning .mo-head { right: 10px; }
+.morning .mo-news { top: 74px; }
+.title-screen .ts-sub { margin-top: 6px; }

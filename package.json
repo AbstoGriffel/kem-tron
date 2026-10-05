@@ -1,0 +1,22 @@
+{
+  "name": "kem-tron",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "tsc --noEmit && vite build",
+    "test": "vitest run",
+    "preview": "vite preview --host"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2",
+    "vite": "^8.3.2",
+    "vite-plugin-singlefile": "^2.3.3",
+    "vitest": "^5.0.3"
+  },
+  "dependencies": {
+    "gsap": "^3.15.0",
+    "spectral.js": "^3.0.0"
+  }
+}
