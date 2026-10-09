@@ -104,9 +104,26 @@
     if(conflict)status('Cloud có bản mới hơn. Tiến độ trên máy chưa bị ghi đè.');
   }
   function init(){
-    const btn=document.createElement('button');btn.textContent='☁';btn.title='Cloud Save';btn.setAttribute('aria-label','Lưu hoặc khôi phục tiến độ');
-    btn.style.cssText='position:fixed;right:12px;bottom:12px;width:44px;height:44px;border-radius:50%;background:#ffe1a0;border:2px solid #69482d;color:#382318;z-index:2147483640;font-size:22px;box-shadow:0 3px 9px #0005';
-    btn.onclick=open;document.body.append(btn);
+    // Integrate into existing in-game settings and title gear menu, no floating overlay during play.
+    const attach = () => {
+      const titleMenu=document.querySelector('.title-screen .gear-pop');
+      if(titleMenu&&!titleMenu.querySelector('.kt-title-cloud')){
+        const b=document.createElement('button');b.className='kt-title-cloud gp-mute';
+        b.textContent='☁ Lưu / khôi phục';b.addEventListener('click',e=>{e.stopPropagation();open();});
+        titleMenu.append(b);
+      }
+      const settings=document.querySelector('.settings .st-card');
+      if(settings&&!settings.querySelector('.kt-setting-cloud')){
+        const b=document.createElement('button');b.className='st-row kt-setting-cloud';
+        b.innerHTML='<span>☁ Lưu tiến độ</span><b>CLOUD</b>';
+        b.addEventListener('click',e=>{e.stopPropagation();open();});
+        const resume=settings.querySelector('.st-resume');
+        if(resume)resume.before(b);else settings.append(b);
+      }
+    };
+    const host=document.querySelector('#modal');
+    if(host)new MutationObserver(attach).observe(host,{childList:true,subtree:true});
+    attach();
     lastRaw=get(S);previous=parse(lastRaw);
     if(on()){
       event('session_start',previous?.day);
