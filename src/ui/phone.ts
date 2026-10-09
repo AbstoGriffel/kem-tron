@@ -1,26 +1,37 @@
 import { gsap } from 'gsap';
+import { noOrphan } from './copy';
 import { beanSvg, type Accessory } from '../art/bean';
 import { ICONS } from '../art/icons';
 import { P } from '../art/kit';
 import { BASES, INGREDIENTS } from '../core/db';
 import { buyPrice, ECON, hasUp, type SaveState } from '../core/state';
 import '../styles/book-phone.css';
+import { STAT_META, statIcon } from './ticket';
+import type { Stats } from '../core/types';
 import { sfx, buzz } from './audio';
 import type { Game } from './game';
 
 type Vendor = (typeof ECON.vendors)[number];
 
-const VENDOR_LINES: Record<string, { hello: string; warn: string; mad: string; deal: string; }> = {
+export const VENDOR_LINES: Record<string, { hello: string; warn: string; mad: string; deal: string; }> = {
   co_sau: { hello: 'Alo, Sáu nghe nè! Lấy gì con?', warn: 'Thôi được rồi… thôi được rồi…', mad: 'Ừ cúp đi! Gọi lại cô lấy thêm 10%!', deal: 'Rồi rồi, giá đó cô lỗ vốn á!' },
   anh_teo: { hello: 'Tèo đây, hàng xách tay chuẩn auth nha em.', warn: 'Khoan khoan khoan!', mad: 'Ok cúp! Gọi lại là giá cũ +10% nha.', deal: 'Chốt! Đừng nói ai giá này nha.' },
   shop_si: { hello: '[Tin nhắn tự động] Shop Sỉ Giá Gốc xin chào. Hàng về liên tục.', warn: '[Tự động] Vui lòng đợi…', mad: '[Tự động] Cuộc gọi bị từ chối.', deal: '[Tự động] Đơn đã được ghi nhận. Không xuất hoá đơn.' },
 };
+
+const escHtml = (t: string) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+/** Chữ bong bóng mối (R5: không mồ côi chữ) — dùng chung cho câu chào lẫn setBubble. */
+export const callBubHTML = (t: string) => noOrphan(escHtml(t));
+/** Dòng hướng dẫn giữ nút giả vờ cúp máy. */
+export const HOLD_HINT = noOrphan('GIỮ nút để <b>giả vờ cúp máy</b>. Thả ra trước khi mối nổi điên!');
 
 /** Gọi điện nhập hàng: danh bạ → cuộc gọi (chọn hàng) → trả giá "Giả Vờ Cúp Máy" → chốt. */
 export function openPhone(g: Game, changed: () => void, opts: { morning?: boolean; onClose?: () => void } = {}) {
   const s = g.s;
   const root = document.createElement('div');
   root.className = 'phone-modal';
+  // đã mở điện thoại thì bong bóng "bấm điện thoại" (nếu đang hiện) tắt luôn
+  document.querySelectorAll('.phone-tip').forEach((n) => n.remove());
   g.modal.appendChild(root);
   const close = () => {
     gsap.to(root, { opacity: 0, duration: 0.2, onComplete: () => { root.remove(); opts.onClose?.(); } });
@@ -39,7 +50,6 @@ export function openPhone(g: Game, changed: () => void, opts: { morning?: boolea
             <span><b>${v.name}</b><small>${describe(v)}</small></span>
             <em>${s.priceMods[v.id] ? (s.priceMods[v.id] < 1 ? `đã bớt ${Math.round((1 - s.priceMods[v.id]) * 100)}%` : 'đang giận') : 'gọi'}</em>
           </button>`).join('')}
-        ${ECON.vendors.filter((v) => v.unlockDay > s.day).map((v) => `<div class="pb-row locked"><span><b>??? </b><small>Mở ngày ${v.unlockDay}</small></span></div>`).join('')}
         <button class="pb-close">${opts.morning ? 'Đóng' : 'Gác máy'}</button>
       </div>`;
     root.querySelectorAll<HTMLButtonElement>('.pb-row[data-id]').forEach((b) => b.addEventListener('click', () => call(ECON.vendors.find((v) => v.id === b.dataset.id)!)));
@@ -56,16 +66,25 @@ export function openPhone(g: Game, changed: () => void, opts: { morning?: boolea
         <div class="call-top">
           <div class="cord"></div>
           <div class="call-av"><svg viewBox="-80 -240 160 250" width="92" height="140">${beanSvg({ color: v.color, acc: v.acc as Accessory[] })}</svg></div>
-          <div class="call-bub">${lines.hello}</div>
+          <div class="call-bub">${callBubHTML(lines.hello)}</div>
         </div>
-        <div class="cl-wrap"><div class="call-list sap sap2">${items.map((it) => `
-          <div class="cl-row" data-id="${it.id}">
-            <button class="st minus" aria-label="bớt"><i></i></button>
-            <svg class="plus" viewBox="0 0 80 80" width="58" height="58">${ICONS[it.id]}</svg>
-            <span class="cl-name">${it.name}</span>
-            <span class="cl-price" data-base="${it.price}">${buyPrice(s, v.id, it.id)}k</span>
-            <b class="qty">0</b>
-            <small class="have">nhà còn ${s.stock[it.id] ?? 0}</small>
+        <div class="cl-wrap"><div class="call-list grab">${items.map((it) => `
+          <div class="cl-row gr-row" data-id="${it.id}">
+            <div class="gr-pic"><svg class="plus" viewBox="0 0 80 80" width="58" height="58">${ICONS[it.id]}</svg></div>
+            <div class="gr-mid">
+              <b class="cl-name">${noOrphan(it.name)}</b>
+              <small class="gr-desc">${noOrphan(it.tip)}</small>
+              <div class="gr-stats">${statChips(it.stats, !!(it as { capacity?: number }).capacity)}</div>
+            </div>
+            <div class="gr-right">
+              <span class="cl-price" data-base="${it.price}">${buyPrice(s, v.id, it.id)}k</span>
+              <small class="have">nhà còn ${s.stock[it.id] ?? 0}</small>
+              <div class="gr-step">
+                <button class="st minus" aria-label="bớt"><i></i></button>
+                <b class="qty">0</b>
+                <button class="st add" aria-label="thêm"><i></i><i></i></button>
+              </div>
+            </div>
           </div>`).join('')}</div><i class="cl-thumb"></i></div>
         <div class="call-foot">
           <div class="total">Tổng: <b>0k</b> <small>/ có ${Math.round(s.money)}k</small></div>
@@ -76,7 +95,7 @@ export function openPhone(g: Game, changed: () => void, opts: { morning?: boolea
       </div>`;
     const setBubble = (t: string) => {
       const b = root.querySelector('.call-bub') as HTMLElement;
-      b.textContent = t;
+      b.innerHTML = callBubHTML(t);
       gsap.fromTo(b, { scale: 0.7 }, { scale: 1, duration: 0.25, ease: 'back.out(2.5)' });
     };
     const av = root.querySelector('.call-av') as HTMLElement;
@@ -87,7 +106,7 @@ export function openPhone(g: Game, changed: () => void, opts: { morning?: boolea
       root.querySelectorAll<HTMLElement>('.cl-row').forEach((r) => {
         const id = r.dataset.id!;
         const q = cart[id] ?? 0;
-        r.querySelector('.qty')!.textContent = q ? `x${q}` : '';
+        r.querySelector('.qty')!.textContent = q ? String(q) : '';
         r.classList.toggle('picked', q > 0);
         const pe = r.querySelector('.cl-price') as HTMLElement;
         const p = buyPrice(s, v.id, id);
@@ -97,7 +116,8 @@ export function openPhone(g: Game, changed: () => void, opts: { morning?: boolea
       const t = total();
       const tt = root.querySelector('.total b') as HTMLElement;
       tt.textContent = `${t}k`;
-      tt.style.color = t > s.money ? P.red : P.ink;
+      // chữ trắng như "Tổng:" (nền xanh ngọc); vượt tiền thì viên đỏ chữ trắng
+      tt.classList.toggle('over', t > s.money);
       const hg = root.querySelector('.haggle') as HTMLButtonElement;
       const limit = hasUp(s, 'sim2') ? 2 : 1;
       hg.disabled = (s.haggled[v.id] ?? 0) >= limit;
@@ -149,7 +169,7 @@ export function openPhone(g: Game, changed: () => void, opts: { morning?: boolea
     const ops = ECON.openers[v.id as keyof typeof ECON.openers];
     // xáo thứ tự theo ngày để câu "trúng ý" không luôn nằm đầu
     const order = ops.map((_, i) => i).sort((a, b) => ((a * 7 + s.day * 3) % 5) - ((b * 7 + s.day * 3) % 5));
-    panel.innerHTML = `<div class="hg-h">Mở lời trước đã:</div>${order.map((i) => `<button class="op" data-i="${i}">"${ops[i].text}"</button>`).join('')}`;
+    panel.innerHTML = `<div class="hg-h">Mở lời trước đã:</div>${order.map((i) => `<button class="op" data-i="${i}">"${noOrphan(ops[i].text)}"</button>`).join('')}`;
     root.querySelector('.call')!.appendChild(panel);
     gsap.fromTo(panel, { y: 200 }, { y: 0, duration: 0.3, ease: 'back.out(1.6)' });
     panel.querySelectorAll<HTMLButtonElement>('.op').forEach((b) => b.addEventListener('click', () => {
@@ -165,7 +185,7 @@ export function openPhone(g: Game, changed: () => void, opts: { morning?: boolea
 
     function holdPhase(patience: number) {
       panel.innerHTML = `
-        <div class="hg-h">GIỮ nút để <b>giả vờ cúp máy</b>. Thả ra trước khi mối nổi điên!</div>
+        <div class="hg-h">${HOLD_HINT}</div>
         <div class="hg-drop"><span>Giảm</span><b>0%</b></div>
         <button class="hangup"><svg viewBox="0 0 60 30" width="70" height="35"><path d="M4 18 C4 6 56 6 56 18 L50 24 L42 18 L42 13 C34 10 26 10 18 13 L18 18 L10 24 Z" fill="#fff" stroke="${P.ink}" stroke-width="2.5" stroke-linejoin="round"/></svg><i>GIỮ ĐỂ CÚP</i></button>`;
       const btn = panel.querySelector('.hangup') as HTMLButtonElement;
@@ -237,6 +257,8 @@ export function openPhone(g: Game, changed: () => void, opts: { morning?: boolea
 export function scrollThumb(list: HTMLElement, thumb: HTMLElement) {
   const upd = () => {
     const { scrollTop: t, scrollHeight: sh, clientHeight: ch } = list;
+    // V4-06: còn nội dung phía dưới thì mờ dần mép dưới (dấu hiệu cuộn rõ hơn viên cuộn mờ)
+    list.classList.toggle('more', t + ch < sh - 2);
     if (sh <= ch + 1) { thumb.style.display = 'none'; return; }
     thumb.style.display = '';
     const h = Math.max(36, (ch / sh) * (ch - 12));
@@ -245,6 +267,15 @@ export function scrollThumb(list: HTMLElement, thumb: HTMLElement) {
   };
   list.addEventListener('scroll', upd, { passive: true });
   requestAnimationFrame(upd);
+}
+
+/** Chỉ số dạng số + icon (T26): "2💡  −1ủi". Cốt kem ghi mức tuyệt đối, nguyên liệu ghi +/−. */
+function statChips(st: Partial<Stats>, _base: boolean) {
+  return (['t', 'm', 'n', 'k', 'd'] as const).filter((k) => (st as Record<string, number>)[k]).map((k) => {
+    const v = (st as Record<string, number>)[k];
+    const m = STAT_META[k];
+    return `<span class="gs${v < 0 ? ' neg' : ''}${k === 'd' ? ' doc' : ''}">${v < 0 ? '−' + -v : v}<svg viewBox="-10 -10 20 20" width="17" height="17">${statIcon(m.icon, m.color)}</svg></span>`;
+  }).join('');
 }
 
 function describe(v: Vendor) {

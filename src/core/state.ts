@@ -21,6 +21,10 @@ export interface OrderDef {
   budget: number;
   gu: string;
   sex?: 'f' | 'm';
+  /** V3-17: câu `say` tự xưng "chị" → chỉ rút tên bắt đầu bằng "Chị" (không ra "Em Ngọc … giùm chị") */
+  pro?: 'chi';
+  /** bệnh vẽ trên mặt lúc vào (T32): sam / san / chay / dau — tối đa 2 */
+  skin?: string[];
 }
 
 export interface Customer {
@@ -131,7 +135,7 @@ export function newGame(seed = 1234): SaveState {
     priceMods: {},
     haggled: {},
     stats: { served: 0, stars: 0, fakeServed: 0, exploded: 0, earned: 0 },
-    tutorialSeen: [],
+    tutorialSeen: ['mig:0610'],
     shopName: 'Kem Nhà Làm',
   };
 }
@@ -141,6 +145,9 @@ export const emptyPot = (): Pot => ({ seed: null, age: 0, watered: false, dry: 0
 export const dayRng = (s: SaveState, salt = '') => mulberry32(hashSeed(`${s.seed}:${s.day}:${salt}`));
 
 export const unlocked = (s: SaveState, key: keyof typeof econ.unlocks) => s.day >= econ.unlocks[key];
+/** Ngày món sắm đồ bán được: không sớm hơn ngày mở của thứ nó nâng cấp (`needs` → unlocks), không viết cứng số ngày. */
+export const upgradeDay = (u: { day: number; needs?: string }) =>
+  Math.max(u.day, u.needs ? (econ.unlocks as Record<string, number>)[u.needs] ?? 0 : 0);
 export const hasUp = (s: SaveState, id: string) => s.upgrades.includes(id);
 
 export function availableIngredients(s: SaveState) {
@@ -157,7 +164,8 @@ const COLORS = ['#FF8A3D', '#7FDCC6', '#B9A3F0', '#FF8DB0', '#F7D046', '#6CC3F0'
 const RANDOM_ACC = [['non_bao_hiem'], ['non_la'], ['kep_cang_cua'], ['khau_trang'], ['toc_buoi'], ['toc_uon'], ['kinh_can'], ['ao_chong_nang'], [], ['kep_cang_cua', 'kinh_can'], ['non_bao_hiem', 'khau_trang']];
 
 function specialLook(o: OrderDef, rng: Rng): { name: string; acc: string[]; color?: string } {
-  const pool = o.sex === 'f' ? NAMES_F : o.sex === 'm' ? NAMES_M : NAMES;
+  const pool0 = o.sex === 'f' ? NAMES_F : o.sex === 'm' ? NAMES_M : NAMES;
+  const pool = o.pro === 'chi' ? NAMES_F.filter((n) => n.startsWith('Chị')) : pool0;
   switch (o.special) {
     case 'me': return { name: 'Mẹ', acc: ['toc_uon'], color: '#F28E8E' };
     case 'sinh_vien': return { name: 'Em sinh viên', acc: ['kinh_can', 'balo', 'toc_buoi'] };

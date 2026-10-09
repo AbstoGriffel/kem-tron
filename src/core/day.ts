@@ -13,9 +13,11 @@ export interface DayLog {
   stars: number[];
   usedFake: boolean;
   exploded: number;
+  /** T61: cộng lời/lỗ từng đơn (tiền nhận − vốn hũ), tách khỏi tiền nhập hàng */
+  profit?: number;
 }
 
-export const newDayLog = (): DayLog => ({ sales: 0, tips: 0, refunds: 0, ingredientSpend: 0, gifts: 0, served: 0, stars: [], usedFake: false, exploded: 0 });
+export const newDayLog = (): DayLog => ({ sales: 0, tips: 0, refunds: 0, ingredientSpend: 0, gifts: 0, served: 0, stars: [], usedFake: false, exploded: 0, profit: 0 });
 
 export interface Ledger {
   lines: { label: string; amount: number }[];

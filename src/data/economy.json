@@ -1,26 +1,25 @@
 {
-  "startMoney": 120,
+  "startMoney": 150,
   "startStock": {
-    "kem_tron": 5,
-    "sap_ne": 4,
-    "dua_leo": 5,
-    "ca_chua": 5,
+    "kem_tron": 7,
+    "dua_leo": 6,
+    "ca_chua": 6,
     "nghe": 3,
-    "chanh": 6,
+    "chanh": 4,
     "nuoc_vo_gao": 8
   },
   "rent": [
     0,
+    15,
+    15,
+    20,
     20,
     25,
     25,
     30,
     30,
-    35,
-    35,
-    35,
-    40,
-    40
+    30,
+    30
   ],
   "customersPerDay": [
     0,
@@ -43,7 +42,7 @@
     },
     {
       "day": 10,
-      "amount": 1000,
+      "amount": 900,
       "name": "Hụi chị Bảy (kỳ 2)"
     }
   ],
@@ -278,6 +277,7 @@
     ],
     "giftCapRatio": 0.25,
     "pitchEvery": 25,
+    "pitchSeconds": 8,
     "onlinePerFollowers": 60,
     "onlineMax": 4
   },
@@ -287,7 +287,7 @@
       "name": "Đèn ring xịn",
       "price": 120,
       "desc": "Mắt xem ×1,3",
-      "day": 2
+      "day": 2, "needs": "live"
     },
     {
       "id": "thau_to",
@@ -301,14 +301,14 @@
       "name": "Máy xay xịn",
       "price": 140,
       "desc": "Xay nhanh gấp đôi, không bốc khói",
-      "day": 3
+      "day": 3, "needs": "blender"
     },
     {
       "id": "binh_xit",
       "name": "Bình chữa cháy",
       "price": 60,
       "desc": "Đun quá tay không cháy mẻ",
-      "day": 4
+      "day": 4, "needs": "stove"
     },
     {
       "id": "sim2",

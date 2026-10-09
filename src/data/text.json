@@ -35,9 +35,15 @@
     "n+": "Dày như trát vữa, đổ mồ hôi hột.",
     "n-": "Ra nắng 5 phút cháy như bánh tráng nướng!",
     "k+": "Khô tới nứt như ruộng hạn!",
-    "k-": "Bết dính như mỡ hành!"
+    "k-": "Bết dính như mỡ hành!",
+    "d+": "Rát như thoa ớt hiểm, mặt nổi mẩn đỏ rần!"
   },
   "reviews": {
+    "me": [
+      "Kem con làm thoa mát rượi, mẹ thấy trẻ ra chục tuổi.",
+      "Thoa đi đám giỗ, mấy bà hàng xóm hỏi mua quá trời.",
+      "Mặt mẹ mướt rượt, con khéo tay ghê. 5 sao!"
+    ],
     "great": [
       "Đắp xong người yêu nhận không ra. 5 sao.",
       "Thơm mùi dưa leo, ăn được luôn (đừng ăn). 5 sao.",
@@ -235,19 +241,22 @@
       "id": "honest",
       "text": "Kem lành tính, xài 2 tuần thấy khác nha!",
       "hype": 3,
-      "sus": 0
+      "sus": 0,
+      "tag": "nói thật"
     },
     {
       "id": "lie",
       "text": "Trắng bật tông sau 1 đêm, bao hoàn tiền!",
       "hype": 12,
-      "sus": 4
+      "sus": 4,
+      "tag": "nổ nhẹ"
     },
     {
       "id": "big_lie",
       "text": "Bác sĩ da liễu nước ngoài khuyên dùng luôn á!",
       "hype": 18,
-      "sus": 8
+      "sus": 8,
+      "tag": "nổ to"
     }
   ],
   "titles": [
@@ -291,6 +300,63 @@
     ],
     "locked": [
       "Khuấy rồi là chốt, hết rút ra được!"
+    ]
+  },
+  "guide": {
+    "c01": "Đồ trong tủ lạnh mẹ để hết cho con đó. Chân mẹ bó bột chứ mặt mẹ vẫn phải đẹp — trộn cho mẹ hũ đầu tiên coi!",
+    "c02": "Kéo hộp kem trơn vô thau trước nha con.",
+    "c03": "Chạm thử một món coi nó làm gì.",
+    "c04": "Mẹ cần trắng lên. Coi ghi chú món\u00a0nào có làm trắng thì bỏ\u00a0vô.",
+    "c04more": "Chưa đủ kìa con ơi, coi ghi chú rồi bỏ thêm vô đi.",
+    "c04over": "Trắng quá rồi con, chạm món trong thau để lấy bớt ra.",
+    "c05": "Đủ rồi thì khuấy đều tay cho mẹ.",
+    "c06": "Chọn hũ đóng kem, rồi chọn cái\u00a0nhãn dán cho đẹp nha.",
+    "c07": "Kéo hũ đưa cho mẹ đi con!",
+    "c08": "Được đó con! Ngày mai mở cửa bán thiệt nha.",
+    "c09": "Thả đồ vô cối, gõ 5 nhát — chỉ\u00a0số mạnh nhất ×1,5, không nhân Độc.",
+    "c09tag": "GÕ ×5",
+    "c10": "Giữ nút XAY tới vạch rồi thả: xoá chỉ\u00a0số âm, +1\u00a0Mịn.",
+    "c10tag": "GIỮ XAY",
+    "c11": "Giữ núm bếp tới khi thanh xanh rồi thả: Độc giảm một\u00a0nửa, mất Che\u00a0nắng.",
+    "c11tag": "GIỮ BẾP",
+    "c12": "Ủa chế không live hả? Tiệm kế bên live đông lắm.",
+    "c13": "Hôm nay chưa lên live — tiệm kế bên kiếm thêm follower rồi đó.",
+    "c14": "Sắp hết: {list} — sáng mai gọi mối nhé.",
+    "c15": "Sắp hết hàng! Bấm điện\u00a0thoại gọi\u00a0mối.",
+    "c15new": "Hết hàng thì\u00a0bấm điện\u00a0thoại gọi mối\u00a0nha.",
+    "c16": "Thiếu đồ? Gọi mối nhập thêm nè!",
+    "c17": "Mắt xem đang chờ! Chốt đơn câu gì?",
+    "c21": "Nói thật: ít mắt xem mà an toàn. Nổ càng to càng đông, mà càng dễ bị soi.",
+    "c22": "Ghi vô sổ bí kíp",
+    "c23": "Đã ghi! Lần sau mở sổ đỏ, chạm công thức là tự đổ.",
+    "c24": "Món này có trong sổ rồi — bấm cuốn sổ cho nhanh.",
+    "c25": "Có đơn online! Tiệm tự làm theo công thức trong sổ bí kíp, nhớ giữ đủ hàng nha.",
+    "c25b": "Có đơn online! Tiệm tự làm theo mấy món đang bán, nhớ giữ đủ hàng nha.",
+    "c26": "Chị Bảy chủ hụi nè. Mẹ em dặn\u00a0rồi, chị đợi được, mà đúng\u00a0hẹn nha cưng.",
+    "c27": "Mai tới kỳ hụi rồi đó. Chị không hối, chị chỉ… nhắc.",
+    "c28": "Bán kiểu này tới Tết mới đủ hả em?",
+    "c29": "Kỳ cuối nha. Trễ nữa là chị dọn ra đây bán phụ luôn đó.",
+    "intro": [
+      {
+        "cap": "Mẹ trượt chân ngoài chợ, bó bột nằm nhà, nghỉ bán.",
+        "sub": "Tiệm kem trộn của mẹ đóng cửa từ hôm đó."
+      },
+      {
+        "cap": "Nhà còn đang góp hụi chị Bảy.",
+        "sub": "Tới kỳ là phải đóng, chị Bảy không đợi ai."
+      },
+      {
+        "cap": "Lục tủ lạnh: còn hộp kem trơn, ít\u00a0rau\u00a0củ.",
+        "sub": "Vốn liếng chỉ có nhiêu đó."
+      },
+      {
+        "cap": "Dựng tiệm kem trộn ngay đầu hẻm.",
+        "sub": "Thau nhôm của mẹ, bếp ga cũ, cái bàn caro."
+      },
+      {
+        "cap": "Bán kem. Trả hụi. Làm giàu!",
+        "sub": "Khách muốn trắng, muốn rẻ, muốn liền."
+      }
     ]
   }
 }

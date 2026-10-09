@@ -4,6 +4,7 @@ import { P } from '../art/kit';
 import { jarSvg } from './jar';
 import { sfx, unlockAudio, isMuted, setMuted } from './audio';
 import '../styles/title-morning.css';
+import { ex, watchLayout } from './stage';
 
 /** Tâm hũ kem trên màn tiêu đề — tia sáng xoay quanh đúng điểm này. */
 const JAR_C: [number, number] = [195, 440];
@@ -78,21 +79,21 @@ export function showTitle(modal: HTMLElement, o: { canContinue: boolean; day: nu
   d.innerHTML = `
     <svg class="ts-bg" viewBox="0 0 390 844" width="390" height="844">
       <defs><pattern id="ts-tile" width="48" height="48" patternUnits="userSpaceOnUse"><rect width="48" height="48" fill="#FFD9E6"/><path d="M24 4 L44 24 L24 44 L4 24 Z" fill="#FFC2D6"/><circle cx="24" cy="24" r="5" fill="#FF8DB0"/></pattern></defs>
-      <rect width="390" height="844" fill="url(#ts-tile)"/>
-      <g class="ts-rays">${Array.from({ length: 16 }, (_, i) => { const a = (i / 16) * Math.PI * 2; const [cx, cy] = JAR_C; return `<path d="M${cx} ${cy} L ${(cx + Math.cos(a) * 700).toFixed(1)} ${(cy + Math.sin(a) * 700).toFixed(1)} L ${(cx + Math.cos(a + 0.2) * 700).toFixed(1)} ${(cy + Math.sin(a + 0.2) * 700).toFixed(1)} Z" fill="#fff" opacity=".35"/>`; }).join('')}</g>
-      <g transform="translate(${JAR_C[0]} ${JAR_C[1]}) scale(.95)"><g class="ts-jar"><g class="ts-bob">
+      <rect y="-500" width="390" height="1900" fill="url(#ts-tile)"/>
+      <g class="ts-rays-pos"><g class="ts-rays">${Array.from({ length: 16 }, (_, i) => { const a = (i / 16) * Math.PI * 2; const [cx, cy] = JAR_C; return `<path d="M${cx} ${cy} L ${(cx + Math.cos(a) * 700).toFixed(1)} ${(cy + Math.sin(a) * 700).toFixed(1)} L ${(cx + Math.cos(a + 0.2) * 700).toFixed(1)} ${(cy + Math.sin(a + 0.2) * 700).toFixed(1)} Z" fill="#fff" opacity=".35"/>`; }).join('')}</g></g>
+      <g class="ts-jar-pos" transform="translate(${JAR_C[0]} ${JAR_C[1]}) scale(.95)"><g class="ts-jar"><g class="ts-bob">
         <g transform="translate(-110 -130) scale(2.75)">${jarSvg('ma_vang', '#FFF0F5', 'decal')}</g>
-        <g class="jar-face" transform="translate(0 -52)">
+        <g class="jar-face" transform="translate(0 -64)">
           <ellipse cx="-26" cy="-6" rx="11" ry="13" fill="#fff" stroke="${P.ink}" stroke-width="3"/><circle cx="-23" cy="-3" r="5" fill="${P.ink}"/>
           <ellipse cx="26" cy="-6" rx="11" ry="13" fill="#fff" stroke="${P.ink}" stroke-width="3"/><circle cx="29" cy="-3" r="5" fill="${P.ink}"/>
-          <path d="M -14 14 q 14 14 28 0" stroke="${P.ink}" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <path d="M -9 4 q 9 9 18 0" stroke="${P.ink}" stroke-width="3.5" fill="none" stroke-linecap="round"/>
         </g>
       </g></g></g>
-      ${beans.map(([c, acc, x, y, sc, e]) => `<g transform="translate(${x} ${y}) scale(${sc})"><g class="ts-bean">${beanSvg({ color: c, acc }).replace(`face-${e}" style="display:none"`, `face-${e}"`)}</g></g>`).join('')}
+      <g class="ts-beans">${beans.map(([c, acc, x, y, sc, e]) => `<g transform="translate(${x} ${y}) scale(${sc})"><g class="ts-bean">${beanSvg({ color: c, acc }).replace(`face-${e}" style="display:none"`, `face-${e}"`)}</g></g>`).join('')}</g>
     </svg>
     <div class="ts-logo">
       <div class="ts-k">KEM</div><div class="ts-t">TR<span class="ts-o">Ô</span>N</div>
-      <svg class="ts-drip" viewBox="0 0 300 40" width="300" height="40"><path d="M 0 0 H 300 V 6 q -10 0 -12 14 q -2 14 -10 0 q -4 -12 -20 -8 q -10 4 -10 24 q -2 14 -12 0 q -4 -24 -30 -20 q -16 4 -16 12 q -4 10 -12 0 q -6 -12 -34 -10 q -20 2 -22 22 q -4 12 -12 0 q -4 -20 -30 -16 q -14 2 -16 6 q -4 10 -12 0 q -8 -14 -20 -8 V 0 Z" fill="#FFF0F5" stroke="${P.ink}" stroke-width="3" stroke-linejoin="round"/></svg>
+      <svg class="ts-drip" viewBox="0 0 300 40" width="300" height="40"><path d="M 0 0 H 300 V 6 q -10 0 -12 14 q -2 14 -10 0 q -4 -12 -20 -8 q -10 4 -10 24 q -2 14 -12 0 q -4 -24 -30 -20 q -16 4 -16 12 q -4 10 -12 0 q -6 -12 -34 -10 q -20 2 -22 22 q -4 12 -12 0 q -4 -20 -30 -16 q -14 2 -16 6 q -4 10 -12 0 q -8 -14 -20 -8 q -14 -14 -32 -16 V 0 Z" fill="#FFF0F5" stroke="${P.ink}" stroke-width="3" stroke-linejoin="round"/></svg>
       <span class="ts-dot"></span>
       <div class="ts-sub">tiệm kem nhà làm <i>(có tâm?)</i></div>
     </div>
@@ -103,6 +104,17 @@ export function showTitle(modal: HTMLElement, o: { canContinue: boolean; day: nu
     <div class="ts-foot">Game vui vẻ, mọi nhân vật và thương hiệu đều là chế.<br>Ngoài đời đừng xài kem trộn nha!</div>`;
   modal.appendChild(d);
   settingsGear(d);
+  // máy dài/ngắn: logo neo trên, nút + 3 bạn đậu neo dưới; hũ kem nằm giữa khoảng trống còn lại (thu nhỏ nếu chật)
+  const logo = d.querySelector('.ts-logo') as HTMLElement, btns = d.querySelector('.ts-btns') as HTMLElement;
+  watchLayout(d, () => {
+    const lb = logo.offsetTop + logo.offsetHeight, bt = btns.offsetTop;
+    const k = Math.max(0.55, Math.min(1, (bt - lb - 16) / 200));
+    // V6-10: hũ nhún lên 8px và có bóng dưới chân → hạ tâm hũ xuống chút, khe trên/dưới đều nhau
+    const cy = Math.round((lb + bt) / 2 + 12 * k);
+    d.querySelector('.ts-jar-pos')!.setAttribute('transform', `translate(${JAR_C[0]} ${cy}) scale(${(0.95 * k).toFixed(3)})`);
+    d.querySelector('.ts-rays-pos')!.setAttribute('transform', `translate(0 ${cy - JAR_C[1]})`);
+    d.querySelector('.ts-beans')!.setAttribute('transform', `translate(0 ${ex()})`);
+  });
   // svgOrigin = toạ độ SVG tuyệt đối → xoay quanh đúng tâm hũ (transformOrigin trên SVG tính theo bbox nên bị lệch)
   gsap.to(d.querySelector('.ts-rays'), { rotation: 360, duration: 40, repeat: -1, ease: 'none', svgOrigin: `${JAR_C[0]} ${JAR_C[1]}` });
   // đặt origin TRƯỚC khi tween: truyền transformOrigin trong fromTo khiến GSAP (smoothOrigin) giữ lại độ lệch của scale ban đầu

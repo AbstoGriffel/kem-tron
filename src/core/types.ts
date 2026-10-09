@@ -58,6 +58,8 @@ export interface BowlItem {
 
 export interface MixResult {
   stats: Stats;
+  /** chỉ số trước khi kẹp 0–10 (vd Khô âm = váng dầu trên thau) */
+  raw: Stats;
   /** Độc trước khi kẹp hiển thị (có thể > docMax). */
   rawDoc: number;
   combos: Combo[];

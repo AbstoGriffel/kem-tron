@@ -36,7 +36,7 @@
       ],
       "color": "#E8483B",
       "unlockDay": 1,
-      "tip": "Làm được tí mọi thứ. Như sinh viên năm cuối."
+      "tip": "Làm được tí mọi thứ. Như sinh viên năm cuối."
     },
     {
       "id": "nha_dam",
@@ -62,7 +62,7 @@
       },
       "color": "#CFEFC1",
       "unlockDay": 2,
-      "tip": "Nhựa vàng để nguyên thì ngứa. Xay đi má."
+      "tip": "Nhựa vàng để nguyên thì ngứa lắm đó má."
     },
     {
       "id": "tra_xanh",
@@ -405,7 +405,7 @@
     },
     {
       "id": "sap_ne",
-      "name": "Sáp nẻ",
+      "name": "Sáp dưỡng ẩm",
       "price": 12,
       "stats": {
         "t": 0,

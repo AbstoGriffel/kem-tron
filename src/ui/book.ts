@@ -3,12 +3,14 @@ import { ICONS } from '../art/icons';
 import { P } from '../art/kit';
 import { base as getBase, ing } from '../core/db';
 import { hasStockFor } from '../core/day';
+import { unlocked } from '../core/state';
 import type { BowlItem } from '../core/types';
 import '../styles/book-phone.css';
 import { sfx } from './audio';
 import type { Game } from './game';
 import { jarSvg } from './jar';
 import { STAT_META } from './ticket';
+import { noOrphan } from './copy';
 
 /** Mũi tên lật trang: tam giác viền mực + 1 vệt sáng, vẽ hướng phải rồi lật bằng scale(-1). */
 const arrowSvg = (dir: -1 | 1) => `<svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true">
@@ -29,10 +31,12 @@ function nameLabel(name: string): string {
   const w = name.toUpperCase().split(' ');
   const cut = Math.max(1, Math.floor(w.length / 2));
   const l1 = esc(w.slice(0, cut).join(' ')), l2 = esc(w.slice(cut).join(' '));
-  const fs = Math.min(6, 36 / Math.max(6, Math.max(l1.length, l2.length) * 0.66));
-  return `<g><rect x="19" y="42" width="42" height="18" rx="9" fill="${P.pink}" stroke="${P.ink}" stroke-width="1.8"/>
-    <text x="40" y="${l2 ? 50 : 53}" font-family="Paytone One" font-size="${fs.toFixed(2)}" fill="#fff" text-anchor="middle">${l1}</text>
-    ${l2 ? `<text x="40" y="57.5" font-family="Paytone One" font-size="${fs.toFixed(2)}" fill="${P.ink}" text-anchor="middle">${l2}</text>` : ''}
+  // V5-12: Paytone One rộng ~0,8 em/chữ in hoa; dòng ước lượng quá 34 đơn vị thì ép vừa 34 (không tràn viền nhãn)
+  const fs = Math.min(6, 36 / Math.max(6, Math.max(l1.length, l2.length) * 0.8));
+  const fit = (s: string) => (s.length * fs * 0.8 > 34 ? ' textLength="34" lengthAdjust="spacingAndGlyphs"' : '');
+  return `<g><rect x="19" y="40.5" width="42" height="20.5" rx="10" fill="${P.pink}" stroke="${P.ink}" stroke-width="1.8"/>
+    <text x="40" y="${l2 ? 50.5 : 53}" font-family="Paytone One" font-size="${fs.toFixed(2)}" fill="#fff" text-anchor="middle"${fit(l1)}>${l1}</text>
+    ${l2 ? `<text x="40" y="57.8" font-family="Paytone One" font-size="${fs.toFixed(2)}" fill="${P.ink}" text-anchor="middle"${fit(l2)}>${l2}</text>` : ''}
     <path d="M 24 46 l 3 0" stroke="#fff" stroke-width="2" stroke-linecap="round"/></g>`;
 }
 
@@ -40,7 +44,8 @@ function nameLabel(name: string): string {
 export function openBook(g: Game, onPick: (r: { base: string; items: BowlItem[]; heated: boolean }) => void) {
   const s = g.s;
   const root = document.createElement('div');
-  root.className = 'book-modal bk2';
+  // V5-23: sổ trống không thu nhỏ theo --mk (chữ hướng dẫn giữ cỡ thật), sổ thấp lại vừa nội dung
+  root.className = `book-modal bk2${s.recipes.length ? '' : ' empty'}`;
   root.innerHTML = `
     <div class="bk-stage">
       <div class="book"></div>
@@ -61,8 +66,8 @@ export function openBook(g: Game, onPick: (r: { base: string; items: BowlItem[];
   const pagesHtml = (i: number) => {
     const r = s.recipes[i];
     if (!r) {
-      return `<div class="bk-top bk-empty"><div class="bk-h">BÍ KÍP GIA TRUYỀN</div><p>Sổ còn trắng tinh. Lúc đóng hũ, tick ô <b>"Ghi vô bí kíp"</b> để lưu công thức. Lần sau trộn nhanh 1 chạm, đơn online cũng lấy công thức từ đây.</p></div>
-        <div class="bk-bot bk-empty"><p class="bk-gen">Đời thứ 1: hôm qua.<br/>Đời thứ 2: hôm nay.<br/>Đời thứ 3: bạn.</p></div>`;
+      return `<div class="bk-top bk-empty"><div class="bk-h">BÍ KÍP GIA TRUYỀN</div><p>Sổ còn trắng tinh. Lúc đóng hũ, chạm tờ ghim vàng <b>"Ghi vô bí kíp?"</b> để lưu công thức. Lần sau mở sổ, chạm <b>"Đổ vô thau"</b> là tay tự thả đủ món, con chỉ việc khuấy${unlocked(s, 'stove') ? ' (công thức có đun thì giữ núm bếp)' : ''}; đơn online cũng lấy công thức từ đây.</p></div>
+        <div class="bk-bot bk-empty"><p class="bk-gen">Ghi càng nhiều công thức,<br/>mai làm càng\u00a0lẹ.</p></div>`;
     }
     const ok = hasStockFor(s, r.base, r.items.map((x) => x.id));
     // mỗi món 1 thẻ (gộp trùng id + cách sơ chế), cốt kem đứng đầu
@@ -76,7 +81,7 @@ export function openBook(g: Game, onPick: (r: { base: string; items: BowlItem[];
     const cardHtml = cards.map((c) => {
       const name = c.id === r.base ? getBase(c.id).name : ing(c.id).name;
       const lack = (s.stock[c.id] ?? 0) < (need.get(c.id) ?? 0);
-      return `<div class="bk-card${lack ? ' lack' : ''}"><svg viewBox="0 0 80 80" width="64" height="64">${ICONS[c.id]}</svg><b>${name}</b>${c.proc !== 'raw' ? `<small>(${c.proc === 'nghien' ? 'nghiền' : 'xay'})</small>` : ''}<i>${c.n}</i></div>`;
+      return `<div class="bk-card${lack ? ' lack' : ''}"><svg viewBox="0 0 80 80" width="64" height="64">${ICONS[c.id]}</svg><b>${noOrphan(name)}</b>${c.proc === 'nghien' || c.proc === 'xay' ? `<small>(${c.proc === 'nghien' ? 'nghiền' : 'xay'})</small>` : ''}<i>${c.n}</i></div>`;
     }).join('');
     const bars = (['t', 'm', 'n', 'k', 'd'] as const).map((k) => `<div class="bk-bar"><span>${STAT_META[k].label}</span><i style="--w:${Math.min(100, (r.stats[k] / (k === 'd' ? 15 : 10)) * 100)}%;--c:${STAT_META[k].color}"></i><b>${r.stats[k]}</b></div>`).join('');
     return `
@@ -88,17 +93,17 @@ export function openBook(g: Game, onPick: (r: { base: string; items: BowlItem[];
         </div>
       </div>
       <div class="bk-bot">
-        <div class="bk-no2">#${i + 1}/${total()}</div>
         <div class="bk-cards">${cardHtml}</div>
-        ${r.heated ? '<div class="bk-heat">+ vặn bếp đun</div>' : ''}
+        ${r.heated ? '<div class="bk-heat">+ giữ bếp đun</div>' : ''}
         <button class="bk-use" ${ok ? '' : 'disabled'}>${ok ? 'Đổ vô thau' : 'Thiếu hàng'}</button>
       </div>`;
   };
 
   const render = () => {
     book.innerHTML = pagesHtml(page);
-    prevBtn.disabled = page <= 0;
-    nextBtn.disabled = page >= total() - 1;
+    // trang đầu / cuối / sổ 1 trang: ẩn hẳn nút lật (không để ô mờ đè viền đáy sổ)
+    prevBtn.hidden = page <= 0;
+    nextBtn.hidden = page >= total() - 1;
     const r = s.recipes[page];
     book.querySelector('.bk-use')?.addEventListener('click', () => {
       if (!r || busy) return;
@@ -107,6 +112,18 @@ export function openBook(g: Game, onPick: (r: { base: string; items: BowlItem[];
       onPick({ base: r.base, items: r.items.map((x) => ({ ...x })), heated: r.heated });
     });
     book.querySelector('.bk-name')?.addEventListener('click', () => r && rename(r));
+    // V7-14: hàng thẻ nguyên liệu dài hơn khung → mép phải (hoặc trái khi đã cuộn) mờ dần + mũi tên › báo còn thẻ
+    const cards = book.querySelector('.bk-cards') as HTMLElement | null;
+    if (cards) {
+      const mark = () => {
+        const over = cards.scrollWidth > cards.clientWidth + 2;
+        cards.classList.toggle('more-r', over && cards.scrollLeft + cards.clientWidth < cards.scrollWidth - 2);
+        cards.classList.toggle('more-l', over && cards.scrollLeft > 2);
+      };
+      cards.addEventListener('scroll', mark, { passive: true });
+      mark();
+      requestAnimationFrame(mark);
+    }
   };
 
   /** Đổi tên hũ: ô nhập ngay trên dòng tên, Enter / chạm ra ngoài để lưu. */

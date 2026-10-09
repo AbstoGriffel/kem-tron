@@ -57,8 +57,10 @@ export function stove(): string {
     <path d="M 112 440 H 298 L 304 506 H 106 Z" fill="${P.ink}" ${ink(2.2)}/>
     <path d="M 118 448 H 292 L 296 500 H 114 Z" fill="${P.red}"/>
     <path d="M 118 448 H 292 L 293 458 H 117 Z" fill="${P.redDark}"/>
-    <rect x="128" y="468" width="100" height="22" rx="4" fill="${P.white}" ${ink(1.8)}/>
-    <text x="178" y="484" font-family="Paytone One" font-size="11" fill="${P.red}" text-anchor="middle">GA MINI</text>
+    <!-- V3-23: nhãn hạ 6px → đáy thau (máy cao) không che viền trên nhãn; vẫn nằm trong mặt đỏ của đế (448–500) -->
+    <!-- V7-13: chưa mở bếp (chưa có núm) thì shop.ts dời nhãn vào giữa mặt đế (tâm x 205) -->
+    <g id="ga-tag"><rect x="128" y="474" width="100" height="21" rx="4" fill="${P.white}" ${ink(1.8)}/>
+    <text x="178" y="489" font-family="Paytone One" font-size="11" fill="${P.red}" text-anchor="middle">GA MINI</text></g>
     <g id="flame" opacity="0">
       <path d="M150 440 q 6 -18 12 0 q 6 -14 12 0 q 6 -20 12 0 q 6 -14 12 0 q 6 -18 12 0 q 6 -14 12 0 q 6 -20 12 0 q 6 -14 12 0 q 6 -18 12 0 z" fill="${P.blue}"/>
       <path d="M156 440 q 4 -10 8 0 q 4 -8 8 0 q 4 -12 8 0 q 4 -8 8 0 q 4 -10 8 0 q 4 -8 8 0 q 4 -12 8 0 q 4 -8 8 0 q 4 -10 8 0 q 4 -8 8 0 q 4 -10 8 0 q 4 -8 8 0 z" fill="${P.sky}"/>
@@ -112,7 +114,8 @@ export function mortar(): string {
     <ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="#8C8076" ${ink()}/>
     <ellipse cx="${cx}" cy="${cy + 2}" rx="${rx - 8}" ry="${ry - 5}" fill="#6E6359"/>
     <g id="mortar-content"></g>
-    <g transform="translate(${cx - 10} ${cy + 2})"><g id="pestle" transform="rotate(-24)">
+    <!-- V7-12: chày nghiêng ít hơn (−16°) → đầu chày cách mép trái màn ≥ 6px -->
+    <g transform="translate(${cx - 10} ${cy + 2})"><g id="pestle" transform="rotate(-16)">
       <path d="M -8 -70 C -10 -40 -12 -14 -12 0 C -12 8 12 8 12 0 C 12 -14 10 -40 8 -70 C 8 -78 -8 -78 -8 -70 Z" fill="#B8ACA1" ${ink()}/>
       <path d="M -3 -64 L -5 -6" stroke="#D8CEC4" stroke-width="3" stroke-linecap="round"/>
     </g></g>

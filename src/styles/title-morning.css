@@ -38,6 +38,10 @@
 
 /* theo Figma: vạch kem chảy che chân chữ TRÔN, dấu nặng đậu trên vạch kem */
 .title-screen .ts-t { position: relative; z-index: 1; }
+/* V3-22: dòng TRÔN cách KEM thêm 12px → dấu mũ chữ Ô không chạm chân/bóng chữ E */
+.title-screen .ts-t { margin-top: 12px; }
+/* bù: cả logo nhích lên 8px → phụ đề + hũ kem bên dưới gần như giữ chỗ cũ */
+.title-screen .ts-logo { top: 46px; }
 .title-screen .ts-drip { position: relative; z-index: 2; margin-top: -12px; rotate: 2deg; }
 
 /* thẻ NGÀY + câu chào luôn 1 dòng; tin buổi sáng nằm dưới hẳn thẻ NGÀY */
@@ -45,3 +49,21 @@
 .morning .mo-head { right: 10px; }
 .morning .mo-news { top: 74px; }
 .title-screen .ts-sub { margin-top: 6px; }
+
+/* V1-04: có vườn thì danh sách tin dừng TRÊN ngọn cây thùng xốp (thùng y=423, cây cao ~30 → 390 + --ex), nằm trên ban công */
+/* máy ngắn (--ex ≤ -160): khung tin nhích lên sát thẻ NGÀY tối đa 12px, thẻ MỚI gọn hơn → vừa trọn 2 thẻ MỚI */
+/* V3-21: nhích tối đa 4px (không 12px) → luôn chừa ≥ 6px giữa đáy thẻ NGÀY và thẻ tin đầu */
+.morning { --nsh: clamp(0px, (-1 * var(--ex, 0px) - 100px) * .2, 4px); }
+.morning .mo-news { top: calc(74px - var(--nsh)); }
+.morning.garden .mo-news { max-height: min(300px, calc(316px + var(--ex, 0px) + var(--nsh))); }
+.morning .mo-card.new.big { padding-top: calc(6px - var(--nsh) / 4); padding-bottom: calc(6px - var(--nsh) / 4); }
+.morning .mo-news { z-index: 2; }
+.morning .mo-more { position: absolute; left: 50%; transform: translateX(-50%); z-index: 3; padding: 2px 12px 3px; font: 800 12px var(--f-body); color: var(--ink);
+  background: #FFF3B0; border: 2px solid var(--ink); border-radius: 99px; box-shadow: 0 2px 0 rgba(42,26,22,.35); cursor: pointer; }
+.morning .mo-more[hidden] { display: none; }
+/* V1-24: chip lời chào nền trắng đặc (vạch bồn nước phía sau không xuyên qua chữ) */
+.morning .mo-sub { background: #fff; }
+/* khung tin dừng ở mép thẻ trọn vẹn + nhãn "còn N thẻ ▾" làm dấu cuộn → mép dưới không làm mờ (mờ làm cây sau lưng lộ xuyên qua thẻ) */
+.morning .mo-news.more-b { --fB: 0px; }
+.morning .mo-news { scroll-snap-type: y proximity; }
+.morning .mo-news .mo-card { scroll-snap-align: start; }

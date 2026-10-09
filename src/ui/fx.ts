@@ -140,6 +140,20 @@ export function popText(x: number, y: number, text: string, color = P.yellow, si
     .to(t, { opacity: 0, duration: 0.25 }, '-=0.25');
 }
 
+/** Chữ bay lên chậm và mờ dần trong `dur` giây (vd "+3 ĐỘC" 2 s, "lời 7k" 3 s). */
+export function floatText(x: number, y: number, text: string, color = P.yellow, size = 16, dur = 2, rise = 46) {
+  const t = el('text', {
+    x, y, 'font-family': 'Paytone One', 'font-size': size, fill: color, stroke: P.ink, 'stroke-width': 4,
+    'paint-order': 'stroke', 'text-anchor': 'middle', 'stroke-linejoin': 'round',
+  });
+  t.textContent = text;
+  fxSvg.appendChild(t);
+  gsap.timeline({ onComplete: () => t.remove() })
+    .fromTo(t, { scale: 0.3, transformOrigin: `${x}px ${y}px` }, { scale: 1, duration: 0.25, ease: 'back.out(2.6)' })
+    .to(t, { y: -rise, duration: dur, ease: 'power1.out' }, 0)
+    .to(t, { opacity: 0, duration: dur * 0.75, ease: 'power1.in' }, dur * 0.25);
+}
+
 /** Đồng xu bay theo cung tới đích. */
 export function coinsTo(from: { x: number; y: number }, to: { x: number; y: number }, n: number, onEach?: (i: number) => void, color = P.yellow) {
   for (let i = 0; i < n; i++) {

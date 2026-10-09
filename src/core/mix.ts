@@ -78,6 +78,7 @@ export function computeMix(baseId: string, items: BowlItem[], heated = false, wi
     for (const it of items) st.d += ing(it.id).heatExtraDoc ?? 0;
   }
 
+  const raw: Stats = { ...st };
   for (const k of STAT_KEYS) st[k] = clamp(st[k], 0, RULES.statMax);
   const rawDoc = Math.max(0, st.d);
   st.d = rawDoc;
@@ -89,6 +90,7 @@ export function computeMix(baseId: string, items: BowlItem[], heated = false, wi
 
   return {
     stats: st,
+    raw,
     rawDoc,
     combos,
     overused,

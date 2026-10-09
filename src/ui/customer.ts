@@ -134,6 +134,15 @@ export class Bean {
       .to(this.body, { scaleX: 1, scaleY: 1, duration: 0.4, ease: 'elastic.out(1,0.35)' });
   }
 
+  /** Cầm đồ vật (chuỗi SVG, tâm ở bàn tay) ở tay trái / phải. */
+  holdProp(side: 'l' | 'r', svgInner: string) {
+    const arm = this.g.querySelector(side === 'l' ? '.arm-l' : '.arm-r') as SVGGElement;
+    const j = el('g', { class: 'held-prop', transform: `translate(${side === 'l' ? -16 : 16} 44)` });
+    j.innerHTML = svgInner;
+    arm.appendChild(j);
+    return j;
+  }
+
   /** Cầm hũ trên tay phải. */
   holdJar(svgInner: string) {
     const arm = this.g.querySelector('.arm-r') as SVGGElement;
@@ -143,15 +152,31 @@ export class Bean {
     return j;
   }
 
-  /** Vệt kem quệt dưới mắt (có giọt chảy). */
+  /** T19: vệt kem quẹt lên 2 gò má (giữa mắt và miệng, lệch ra 2 bên), quẹt má phải trước rồi má trái. */
   smear(color: string) {
     const head = this.g.querySelector('.head')!;
-    const s = el('g');
-    s.innerHTML = `<path d="M 6 -118 q 14 -6 30 -2 q 4 4 -2 7 q -6 2 -6 9 q -2 6 -5 0 q -1 -5 -6 -6 q -8 0 -11 -2 q -3 -4 0 -6 z" fill="${color}" stroke="${P.ink}" stroke-width="2.4" stroke-linejoin="round"/>
-      <path d="M 12 -118 q 8 -3 16 -1" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round" opacity=".85"/>`;
+    const s = el('g', { class: 'smear' });
+    const one = (x: number, flip: number) => `<g transform="translate(${x} -119) scale(${flip} 1)">
+      <path d="M -9 -2 q 9 -6 19 -2 q 3 3 -1 5 q -4 2 -4 6 q -2 4 -4 0 q -1 -3 -4 -4 q -5 0 -7 -1 q -2 -2 1 -4 z" fill="${color}" stroke="${P.ink}" stroke-width="2.2" stroke-linejoin="round"/>
+      <path d="M -5 -3 q 5 -2 10 -1" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" opacity=".85"/></g>`;
+    s.innerHTML = `<g class="sm-r">${one(38, 1)}</g><g class="sm-l">${one(-38, -1)}</g>`;
     head.appendChild(s);
-    gsap.from(s, { scaleX: 0, transformOrigin: '6px -116px', duration: 0.18, ease: 'power2.out' });
+    gsap.from(s.querySelector('.sm-r'), { scaleX: 0, transformOrigin: '30px -119px', duration: 0.16, ease: 'power2.out' });
+    gsap.from(s.querySelector('.sm-l'), { scaleX: 0, transformOrigin: '-30px -119px', duration: 0.16, delay: 0.14, ease: 'power2.out' });
     return s;
+  }
+
+  /** T32/T33: vẽ lớp da (bệnh / lỗi) lên mặt — nằm dưới mắt, miệng, phụ kiện. Gọi lại để thay. */
+  setSkin(layers: string, fade = false) {
+    const head = this.g.querySelector('.head')!;
+    const old = head.querySelector(':scope > .skin-wrap');
+    const w = el('g', { class: 'skin-wrap' });
+    w.innerHTML = layers;
+    head.insertBefore(w, head.firstChild);
+    if (fade) {
+      gsap.fromTo(w, { opacity: 0 }, { opacity: 1, duration: 0.5 });
+      if (old) gsap.to(old, { opacity: 0, duration: 0.5, onComplete: () => old.remove() });
+    } else old?.remove();
   }
 
   /** Mặt nhọ (sau vụ nổ). */

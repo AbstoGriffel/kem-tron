@@ -25,7 +25,8 @@ export function statIcon(kind: string, color: string): string {
   return '';
 }
 
-const X = 7, Y = 584, W = 120, H = 222;
+// X + góc nghiêng chọn để mép phải (cả bóng) không lấn qua khung hộc tủ (GX - 4 = 134)
+const X = 4, Y = 584, W = 120, H = 222, TILT = -1.5;
 const BAR_X = 27, BAR_W = 78, ROW_Y0 = 62, ROW_H = 24;
 
 /** Tờ order kẹp trên bàn: chỉ số + vạch mục tiêu + preview. */
@@ -35,19 +36,26 @@ export class Ticket {
   private revealed = false;
   private customer?: Customer;
   private budgetText!: SVGTextElement;
+  private budgetLbl!: SVGTextElement;
   private stamp!: SVGGElement;
   private nameText!: SVGTextElement;
   onAsk?: () => void;
   onZoom?: () => void;
   private askBtn!: SVGGElement;
+  /** Phần chữ/thanh trên giấy (giấy đứng yên, chỉ phần này nhá lên khi khách mới tới). */
+  private body!: SVGGElement;
+  private note!: SVGGElement;
+  private more!: SVGGElement;
+  private zoomEl?: HTMLElement;
 
   constructor(parent: SVGGElement) {
-    const holder = el('g', { transform: `translate(${X} ${Y}) rotate(-2 ${W / 2} 0)` });
+    const holder = el('g', { transform: `translate(${X} ${Y}) rotate(${TILT} ${W / 2} 0)` });
     parent.appendChild(holder);
     this.g = el('g', { id: 'ticket' });
     holder.appendChild(this.g);
     this.build();
-    this.g.style.display = 'none';
+    // R3: tờ đơn luôn nằm trên bàn từ lúc mở tiệm — chưa có khách thì để trống
+    this.clear();
   }
 
   private build() {
@@ -59,17 +67,20 @@ export class Ticket {
       <path d="M 8 22 H ${W - 8}" stroke="${P.red}" stroke-width="1.2" opacity=".6"/>
       <path d="M 8 44 H ${W - 8}" stroke="${P.blue}" stroke-width="1" opacity=".35" stroke-dasharray="3 3"/>`;
     this.g.appendChild(paper);
-    this.g.style.cursor = 'zoom-in';
-    this.g.addEventListener('pointerdown', (e) => { if (!(e.target as Element).closest('.ask')) { e.stopPropagation(); this.onZoom?.(); } });
+    this.body = el('g');
+    this.g.appendChild(this.body);
+    // tờ trống (không có khách) thì chạm không làm gì
+    this.g.addEventListener('pointerdown', (e) => { if (!(e.target as Element).closest('.ask')) { e.stopPropagation(); if (this.customer) this.onZoom?.(); } });
     this.nameText = el('text', { x: 8, y: 17, 'font-family': 'Baloo 2', 'font-weight': 800, 'font-size': 12, fill: P.ink });
-    this.g.appendChild(this.nameText);
+    this.body.appendChild(this.nameText);
     // tờ tiền budget
-    const note = el('g', { transform: `translate(58 29) rotate(-3)` });
+    const note = this.note = el('g', { transform: `translate(58 29) rotate(-3)` });
     note.innerHTML = `<rect width="46" height="16" rx="2" fill="#9ED36A" stroke="${P.ink}" stroke-width="1.6"/><circle cx="8" cy="8" r="4.5" fill="#C9EE9A" stroke="${P.greenDark}" stroke-width="1"/>`;
-    this.budgetText = el('text', { x: 28, y: 12.5, 'font-family': 'Paytone One', 'font-size': 10.5, fill: P.ink, 'text-anchor': 'middle' });
+    // chữ neo trái ngay sau đồng xu (chữ dài như "tình iu" không lấn vào xu), tờ tiền nới theo chữ
+    this.budgetText = el('text', { x: 16, y: 12.5, 'font-family': 'Paytone One', 'font-size': 10.5, fill: P.ink, 'text-anchor': 'start' });
     note.appendChild(this.budgetText);
-    this.g.appendChild(note);
-    const lbl = el('text', { x: 8, y: 40, 'font-family': 'Baloo 2', 'font-weight': 700, 'font-size': 9.5, fill: P.inkSoft });
+    this.body.appendChild(note);
+    const lbl = this.budgetLbl = el('text', { x: 8, y: 40, 'font-family': 'Baloo 2', 'font-weight': 700, 'font-size': 9.5, fill: P.inkSoft });
     lbl.textContent = 'khách đưa:';
     this.g.appendChild(lbl);
 
@@ -91,9 +102,9 @@ export class Ticket {
         cellEls.push(r);
       }
       void cells;
-      const mark = el('text', { x: BAR_X + BAR_W + 4, y: 4, 'font-family': 'Paytone One', 'font-size': 10, fill: P.ink, 'text-anchor': 'start' });
+      const mark = el('text', { x: BAR_X + BAR_W + 3, y: 4.5, 'font-family': 'Paytone One', 'font-size': 10, fill: P.ink, 'text-anchor': 'start' });
       row.appendChild(mark);
-      this.g.appendChild(row);
+      this.body.appendChild(row);
       this.rows[k] = { cells: cellEls, band, mark, row };
     });
 
@@ -102,27 +113,73 @@ export class Ticket {
     this.askBtn.innerHTML = `<rect x="-6" y="-12" width="44" height="22" rx="11" fill="${P.blue}" stroke="${P.ink}" stroke-width="2"/><text x="16" y="4" font-family="Paytone One" font-size="10" fill="#fff" text-anchor="middle">Hả em?</text>`;
     this.askBtn.addEventListener('pointerdown', (e) => { e.stopPropagation(); this.onAsk?.(); });
     this.g.appendChild(this.askBtn);
-    const more = el('g', { transform: `translate(${W / 2} ${H - 22})`, style: 'cursor:pointer' });
+    const more = this.more = el('g', { class: 'tk-more', transform: `translate(${W / 2} ${H - 22})` });
     more.innerHTML = `<rect x="-38" y="-12" width="76" height="24" rx="8" fill="#fff" stroke="${P.ink}" stroke-width="2.4"/><text y="5" font-family="Paytone One" font-size="11" fill="${P.ink}" text-anchor="middle">CHI TIẾT</text>`;
     this.g.appendChild(more);
 
     this.stamp = el('g', { transform: `translate(${W / 2} ${H / 2}) rotate(-14)`, opacity: 0 });
     this.stamp.innerHTML = `<rect x="-50" y="-16" width="100" height="32" rx="5" fill="none" stroke="${P.red}" stroke-width="3.5"/><text y="8" font-family="Paytone One" font-size="18" fill="${P.red}" text-anchor="middle">ĐÃ CHỐT</text>`;
-    this.g.appendChild(this.stamp);
+    this.body.appendChild(this.stamp);
+  }
+
+  /** Tờ tiền ôm vừa chữ: rộng = lề xu + chữ + lề phải (tối thiểu 46). */
+  private fitNote() {
+    let w = 0;
+    try { w = this.budgetText.getComputedTextLength(); } catch { /* chưa vẽ */ }
+    (this.note.querySelector('rect') as SVGRectElement).setAttribute('width', String(Math.max(46, Math.ceil(16 + w + 6))));
+  }
+
+  /** Giữa hai khách: giữ khung giấy, xoá nội dung, khoá nút CHI TIẾT. */
+  clear() {
+    this.customer = undefined;
+    this.revealed = false;
+    this.zoomEl?.remove();
+    gsap.killTweensOf([this.body, this.stamp]);
+    gsap.set(this.body, { opacity: 1, y: 0 });
+    gsap.set(this.stamp, { opacity: 0 });
+    this.nameText.textContent = 'Đang chờ khách…';
+    this.nameText.setAttribute('fill', P.inkSoft);
+    this.nameText.setAttribute('font-weight', '700');
+    this.nameText.setAttribute('opacity', '.6');
+    this.note.style.display = 'none';
+    // V2-17: chưa có khách thì ẩn luôn nhãn "khách đưa:" (giữ chỗ, không giật bố cục)
+    this.budgetLbl.style.visibility = 'hidden';
+    this.askBtn.style.display = 'none';
+    for (const r of Object.values(this.rows)) {
+      r.row.setAttribute('opacity', '0.5');
+      r.band.setAttribute('width', '0');
+      r.mark.textContent = '';
+    }
+    this.update(null);
+    this.more.setAttribute('opacity', '.4');
+    this.more.style.cursor = 'default';
+    this.g.style.cursor = 'default';
+    this.g.setAttribute('data-empty', '1');
   }
 
   show(c: Customer, revealed: boolean) {
     this.customer = c;
     this.revealed = revealed || c.order.clarity === 1;
     this.nameText.textContent = c.name;
+    this.nameText.setAttribute('fill', P.ink);
+    this.nameText.setAttribute('font-weight', '800');
+    this.nameText.removeAttribute('opacity');
+    this.note.style.display = '';
+    this.budgetLbl.style.visibility = '';
+    this.more.removeAttribute('opacity');
+    this.more.style.cursor = 'pointer';
+    this.g.style.cursor = 'zoom-in';
+    this.g.removeAttribute('data-empty');
     this.budgetText.textContent = c.order.special === 'me' ? 'tình iu' : `${c.budget}k`;
     if (c.order.special === 'me') this.budgetText.setAttribute('font-size', '9.5');
     else this.budgetText.setAttribute('font-size', '10.5');
+    this.fitNote();
+    gsap.killTweensOf(this.stamp);
     gsap.set(this.stamp, { opacity: 0 });
-    this.g.style.display = '';
     this.layoutBands();
     this.askBtn.style.display = 'none';
-    gsap.fromTo(this.g, { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: 'back.out(2)' });
+    // giấy đứng yên, chỉ chữ + thanh nhá xuống nhẹ
+    gsap.fromTo(this.body, { y: -6, opacity: 0.2 }, { y: 0, opacity: 1, duration: 0.35, ease: 'back.out(2)' });
   }
 
   reveal() {
@@ -170,12 +227,14 @@ export class Ticket {
         continue;
       }
       const pad = fuzzy ? 1 : 0;
-      const a = Math.max(0, lo - pad), b = Math.min(n, hi + pad + 1);
+      // giá trị v tô ô 0..v-1 → vùng đạt [lo,hi] là ô lo-1..hi-1 (hàng Độc lo=0 → đúng md ô)
+      const a = Math.max(0, lo - 1 - pad), b = Math.min(n, hi + pad);
       r.band.setAttribute('x', String(BAR_X + a * cw - 1.5));
       r.band.setAttribute('width', String((b - a) * cw + 3));
       r.band.setAttribute('fill', k === 'd' ? 'none' : fuzzy ? '#E4F7D8' : '#B7F0A0');
       r.band.setAttribute('stroke-dasharray', fuzzy ? '3 3' : '0');
       r.mark.textContent = fuzzy ? '~' : '';
+      r.mark.setAttribute('font-size', fuzzy ? '13' : '10');
     }
   }
 
@@ -197,6 +256,12 @@ export class Ticket {
       });
       if (stats && k !== 'd' && range && this.revealed) r.mark.textContent = ok ? '✓' : v < range[0] ? '↑' : '↓';
       if (stats && k === 'd') r.mark.textContent = v >= 15 ? '!!' : v >= 10 ? '!' : '';
+      // mũi tên thiếu/thừa to + đỏ cho dễ thấy (gợi ý "Trắng còn thiếu" của bước 3); dấu khác giữ cỡ nhỏ màu mực
+      const arrow = r.mark.textContent === '↑' || r.mark.textContent === '↓';
+      r.mark.setAttribute('font-size', arrow ? '14' : r.mark.textContent === '~' ? '13' : '10');
+      r.mark.setAttribute('fill', arrow ? P.red : P.ink);
+      r.mark.setAttribute('font-family', arrow ? 'Baloo 2' : 'Paytone One');
+      r.mark.setAttribute('font-weight', '800');
       if (pulse?.[k]) gsap.fromTo(r.row, { x: pulse[k]! > 0 ? 4 : -4 }, { x: 0, duration: 0.3, ease: 'elastic.out(1,0.35)' });
       void n;
     }
@@ -217,7 +282,7 @@ export class Ticket {
       const showBand = used && (this.revealed || k === 'd' || c.order.clarity === 2);
       const fuzzy = !this.revealed && k !== 'd';
       const cells = Array.from({ length: n }, (_, i) => {
-        const inBand = range && showBand && (fuzzy ? i >= range[0] - 1 && i <= range[1] + 1 : i >= range[0] && i <= range[1]);
+        const inBand = range && showBand && (fuzzy ? i >= range[0] - 2 && i <= range[1] : i >= range[0] - 1 && i <= range[1] - 1);
         const filled = i < v;
         let bg = '#fff';
         if (k === 'd') bg = filled ? (i < 5 ? P.green : i < 9 ? P.yellow : i < 14 ? P.red : P.purple) : '#f1ebe0';
@@ -231,6 +296,7 @@ export class Ticket {
     d.className = 'ticket-zoom';
     d.innerHTML = `<button class="tz-x" aria-label="Đóng"><svg viewBox="0 0 20 20" width="18" height="18"><path d="M4 4 L16 16 M16 4 L4 16" stroke="#2A1A16" stroke-width="3.2" stroke-linecap="round"/></svg></button><div class="tz-h">${c.name} <em>${c.order.special === 'me' ? 'tình iu' : c.budget + 'k'}</em></div>${rows}<div class="tz-foot">Vạch xanh = khách muốn. Thanh màu = mẻ hiện tại. Độc ≥10 là kích ứng, ≥15 nổ thau.</div>`;
     hud.appendChild(d);
+    this.zoomEl = d;
     gsap.fromTo(d, { scale: 0.3, x: -120, y: -60, opacity: 0, rotation: -6 }, { scale: 1, x: 0, y: 0, opacity: 1, rotation: -1, duration: 0.3, ease: 'back.out(1.8)' });
     const close = () => gsap.to(d, { scale: 0.3, x: -120, y: -60, opacity: 0, duration: 0.2, onComplete: () => d.remove() });
     d.querySelector('.tz-x')!.addEventListener('pointerdown', (e) => { e.stopPropagation(); close(); });
@@ -241,10 +307,6 @@ export class Ticket {
 
   stampLocked() {
     gsap.fromTo(this.stamp, { opacity: 0, scale: 2.2, transformOrigin: '0 0' }, { opacity: 0.9, scale: 1, duration: 0.18, ease: 'power4.in' });
-  }
-
-  hide() {
-    gsap.to(this.g, { y: 30, opacity: 0, duration: 0.25, onComplete: () => { this.g.style.display = 'none'; } });
   }
 
   center() {

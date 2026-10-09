@@ -1,53 +1,41 @@
 /* ===== QLTT: đầu chú trượt trên thanh đếm ngược ===== */
 .insp-timer { z-index: 1; }
-.insp-head { position: absolute; top: 62px; left: 0; width: 46px; height: 42px; z-index: 2; pointer-events: none; }
+.insp-head { position: absolute; top: 106px; left: 0; width: 46px; height: 42px; z-index: 2; pointer-events: none; }
 #stage .insp-head svg { display: block; overflow: hidden; transform-origin: 50% 90%; animation: insp-bob .42s ease-in-out infinite alternate; }
+/* lời chú (gõ cửa, lục đồ): bong bóng trên tường giữa cửa và tủ lạnh, đuôi chỉ về cửa — vị trí do inspection.ts tính */
+.insp-say { position: absolute; left: 170px; top: 140px; width: 210px; z-index: 3; pointer-events: none; opacity: 0;
+  background: #fff; border: 3px solid var(--ink); border-radius: 14px; padding: 7px 11px 8px; font: 700 14px/1.3 var(--f-body); color: var(--ink);
+  text-wrap: pretty; box-shadow: 0 4px 0 rgba(42,26,22,.25); }
+.insp-say.bad { background: #FFE1DA; }
+.insp-say::before { content: ''; position: absolute; left: -13px; top: 50%; margin-top: -9px; border: 9px solid transparent; border-right: 11px solid var(--ink); border-left: 0; }
+.insp-say::after { content: ''; position: absolute; left: -8px; top: 50%; margin-top: -6px; border: 6px solid transparent; border-right: 8px solid #fff; border-left: 0; }
+.insp-say.bad::after { border-right-color: #FFE1DA; }
 @keyframes insp-bob { from { transform: rotate(-7deg) translateY(0); } to { transform: rotate(6deg) translateY(-2px); } }
 
-/* ===== Sổ chi tiêu: tường giấy khen ===== */
-.evening .ev-col .ev-wall { position: relative; flex: 1 1 auto; min-height: 0; margin: 4px 0 0 106px; z-index: 2; }
-.bw-grid { display: grid; grid-template-columns: repeat(var(--cols, 4), 65px); justify-content: center; gap: 8px 4px; padding-top: 8px; transform-origin: 50% 0; }
-.bw-cell { position: relative; transform: rotate(var(--r, 0deg)); }
-.bw-cell.low { margin-top: 16px; }
-.bw-paper { position: relative; width: 65px; height: 84px; padding: 3px; background: #FFF8E6; border: 2px solid var(--ink); border-radius: 2px; box-shadow: 2px 3px 0 rgba(20, 10, 30, .45); }
-.bw-paper.mint { background: #E3F5EC; }
-.bw-paper.gold { background: #FFE9A8; }
-.bw-in { height: 100%; overflow: hidden; border: 1.5px solid #E63B2E; outline: 1px solid #E63B2E; outline-offset: -4px; padding: 4px 3px 3px; display: flex; flex-direction: column; align-items: center; text-align: center; }
-.bw-paper.gold .bw-in { border-color: #C98A12; outline-color: #C98A12; }
-.bw-in small { font: 6.5px/1 var(--f-title); letter-spacing: .4px; color: #E63B2E; margin-top: 1px; }
-.bw-seal { margin: 1px 0 0; flex: none; }
-.bw-in b { font: italic 700 10px/1 var(--f-body); color: #2B4C9E; transform: rotate(-3deg); margin-top: 1px; word-break: break-word; }
-.bw-in b.long { font-size: 8.6px; line-height: 1; letter-spacing: -.1px; }
-.bw-in em { font: 600 7px/1 var(--f-body); color: #7A5A50; font-style: normal; margin-top: auto; padding-top: 2px; }
-.bw-tape { position: absolute; top: -8px; left: calc(50% - 16px); width: 32px; height: 13px; background: rgba(255, 238, 186, .82); border: 1px solid rgba(42, 26, 22, .25); transform: rotate(-5deg); z-index: 1; }
-.bw-pin { position: absolute; top: -6px; left: calc(50% - 6px); width: 12px; height: 12px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #FFB4A6 0 2px, #E63B2E 2.5px); border: 2px solid var(--ink); z-index: 1; }
-.bw-more-cell { display: flex; align-items: center; justify-content: center; height: 84px; }
-.bw-more { text-align: center; font: 16px/1 var(--f-title); background: var(--yellow); border: 2.5px solid var(--ink); border-radius: 99px; padding: 5px 9px 4px; box-shadow: 0 3px 0 var(--ink); transform: rotate(-6deg); }
-.bw-more small { display: block; font: 700 8px/1 var(--f-body); margin-top: 2px; }
-.bw-empty { margin: 14px auto 0; width: 170px; padding: 14px 8px; text-align: center; border: 2px dashed rgba(255, 255, 255, .35); border-radius: 6px; color: rgba(255, 255, 255, .6); font: 700 12px var(--f-body); transform: rotate(-2deg); }
-.bw-spark { position: absolute; left: 50%; top: 50%; margin: -9px 0 0 -9px; pointer-events: none; z-index: 3; }
-
-/* tường giấy khen chừa hẳn chỗ cái quạt (quạt chiếm x < 125) */
-.evening .ev-col .ev-wall { margin-left: 118px; overflow: visible; }
-.bw-cell { cursor: pointer; }
-.bw-more { cursor: pointer; color: var(--ink); }
-.bw-more:active { transform: rotate(-6deg) translateY(2px); box-shadow: 0 1px 0 var(--ink); }
-/* xem 1 tờ phóng to */
-.bw-zoom { position: absolute; inset: 0; z-index: 60; background: rgba(20, 10, 30, .62); display: grid; place-items: center; }
-.bw-zoom-in { width: 65px; height: 84px; }
-.bw-zoom-in .bw-paper { box-shadow: 1px 1.5px 0 rgba(20, 10, 30, .45); }
-.bw-zoom-hint { position: absolute; bottom: 120px; left: 0; right: 0; text-align: center; color: rgba(255, 255, 255, .75); font: 700 13px var(--f-body); }
-/* cả xấp giấy khen */
-.bw-album { position: absolute; inset: 0; z-index: 55; background: rgba(20, 10, 30, .5); }
-.bwa-card { position: absolute; left: 10px; right: 10px; bottom: 10px; top: 120px; display: flex; flex-direction: column; background: #3B2C5E; border: 3px solid var(--ink); border-radius: 16px; padding: 12px 10px 10px; box-shadow: 0 6px 0 rgba(0, 0, 0, .3); }
-.bwa-h { font: 18px var(--f-title); color: #FFF8E6; margin: 0 4px 6px; } .bwa-h small { font: 700 12px var(--f-body); margin-left: 8px; opacity: .8; }
-.bwa-wrap { position: relative; flex: 1; min-height: 0; }
-.bwa-grid { height: 100%; overflow-y: auto; scrollbar-width: none; touch-action: pan-y; display: grid; grid-template-columns: repeat(4, 65px); justify-content: space-evenly; gap: 18px 6px; padding: 14px 6px 20px; box-sizing: border-box; }
-.bwa-grid::-webkit-scrollbar { display: none; }
-.bwa-wrap .cl-thumb { background: rgba(255, 248, 230, .35); box-shadow: none; }
-.bwa-x { margin-top: 10px; font: 16px var(--f-title); padding: 10px; border: 3px solid var(--ink); border-radius: 12px; background: var(--yellow); box-shadow: 0 4px 0 var(--ink); cursor: pointer; }
 /* sắm đồ: cuộn trong danh sách, scrollbar tự vẽ */
 .upgrades { overflow: hidden !important; display: flex; flex-direction: column; }
 .upgrades .up-wrap { position: relative; flex: 1 1 auto; min-height: 0; margin: 0 -4px 8px; }
-.upgrades .up-list { max-height: 540px; overflow-y: auto; scrollbar-width: none; touch-action: pan-y; overscroll-behavior: contain; padding: 0 10px 4px 4px; }
+.upgrades .up-list { max-height: 540px; overflow-y: auto; scrollbar-width: none; touch-action: pan-y; overscroll-behavior: contain; padding: 0 4px 4px 4px; }
 .upgrades .up-list::-webkit-scrollbar { display: none; }
+
+/* Tiến độ kỳ hụi trong sổ tối (T23) */
+.rc-hui { margin-top: 8px; padding: 6px 8px 7px; background: #FFF3C4; border: 2px solid var(--ink); border-radius: 8px; }
+.rc-hui .hui-h { display: flex; justify-content: space-between; align-items: baseline; font: 700 12px var(--f-body); }
+.rc-hui .hui-h b { font: 14px var(--f-title); }
+.rc-hui .hui-h span { color: var(--red); font-weight: 800; }
+.rc-hui .hui-bar { position: relative; height: 20px; margin: 4px 0 3px; background: #fff; border: 2px solid var(--ink); border-radius: 99px; overflow: hidden; }
+/* V7-15: bỏ vạch mép phải phần xanh — vạch chạy xuyên nhãn "135k / 300k" và đủ 100% thì thành vạch đôi với viền thanh */
+.rc-hui .hui-bar i { position: absolute; left: 0; top: 0; bottom: 0; background: #62B94E; }
+.rc-hui .hui-bar em { position: absolute; inset: 0; display: grid; place-items: center; font: normal 12px/1 var(--f-title); color: var(--ink); text-shadow: 0 0 3px #fff, 0 0 3px #fff; }
+.rc-hui small { font: 600 11.5px/1.3 var(--f-body); color: #5A4038; } .rc-hui small b { color: var(--ink); }
+.rc-hui.ok { background: #DDF5C2; }
+
+/* V1-29: nhãn tiến độ hụi nằm trên viên pill trắng → vạch mép phần xanh không cắt ngang chữ */
+/* V3-15: số tiền không còn viên nền trắng đặc (che đoạn cuối phần xanh → đọc nhầm tiến độ); chữ mực có viền trắng */
+.rc-hui .hui-bar em span { background: none; border: 0; padding: 1px 0 0; line-height: 14px; text-shadow: -1.5px 0 #fff, 1.5px 0 #fff, 0 -1.5px #fff, 0 1.5px #fff, -1px -1px #fff, 1px 1px #fff, -1px 1px #fff, 1px -1px #fff; }
+/* V2-06: nhãn nằm trong khe giữa cột sổ (đáy cột nâng lên 122px) và hàng nút → không in đè chữ giấy nhớ */
+.evening .ev-col { bottom: calc(122px + var(--padB, 0px)) !important; }
+/* V1-28: sổ dài hơn màn → nhãn "Kéo xem thêm ▾" ở mép mờ dưới cột giữa (ẩn khi đã cuộn tới đáy) */
+.evening .ev-more { display: none; position: absolute; left: 50%; transform: translateX(-50%); bottom: calc(88px + var(--padB, 0px)); z-index: 3; pointer-events: none;
+  font: 800 12px var(--f-body); color: var(--ink); background: #FFF3B0; border: 2px solid var(--ink); border-radius: 99px; padding: 2px 10px; box-shadow: 0 2px 0 rgba(0,0,0,.3); }
+.evening.col-more .ev-more { display: block; }

@@ -20,10 +20,12 @@ export const ICONS_BASE: Record<string, string> = {
     <!-- thân hộp -->
     <path d="M 12 34 L 14 62 C 14 70 56 70 56 62 L 58 34 Z" fill="${P.white}" ${S}/>
     <path d="M 46 36 L 57 35 L 55.5 62 C 55 66 50 67.5 44 68 Z" fill="#E3D6C8"/>
+    <!-- vệt sáng thân hộp nằm dưới dải nhãn (không đè chữ K) -->
+    <path d="M 18 40 L 19 60" stroke="${P.white}" stroke-width="3" stroke-linecap="round" opacity=".9"/>
     <!-- nhãn -->
     <path d="M 13 44 C 26 47 44 47 57 44 L 56.5 55 C 44 58 26 58 13.6 55 Z" fill="${P.teal}" ${S}/>
-    <text x="36" y="54" font-family="Paytone One" font-size="8.5" fill="${P.white}" text-anchor="middle" textLength="33" lengthAdjust="spacingAndGlyphs">KEM TRƠN</text>
-    <path d="M 18 40 L 19 60" stroke="${P.white}" stroke-width="3" stroke-linecap="round" opacity=".9"/>
+    <!-- V7-05: chữ nhãn gần cỡ tự nhiên (ép 92% thay vì 75%) → móc chữ Ơ không dính vào chữ N khi icon nhỏ -->
+    <text x="35" y="54" font-family="Paytone One" font-size="8" fill="${P.white}" text-anchor="middle" textLength="38" lengthAdjust="spacingAndGlyphs">KEM TRƠN</text>
     <!-- miệng hộp + kem -->
     <ellipse cx="35" cy="34" rx="23" ry="8" fill="${P.white}" ${S}/>
     <ellipse cx="35" cy="34.5" rx="18" ry="5.5" fill="#FFF6EE"/>
@@ -33,7 +35,7 @@ export const ICONS_BASE: Record<string, string> = {
     <path d="M 32 31 C 34 29 37 29 38 30" stroke="${P.white}" stroke-width="2" fill="none" stroke-linecap="round"/>
   </g>`,
 
-  // Hộp sắt dẹt nhỏ kiểu sáp nẻ, nắp in hoa dựng phía sau
+  // Hộp sắt dẹt nhỏ kiểu sáp dưỡng ẩm, nắp in hoa dựng phía sau
   sap_ne: `<ellipse cx="40" cy="72" rx="21" ry="4.5" fill="${P.ink}" opacity=".18"/>
   <g transform="rotate(5 40 56)">
     <!-- nắp in hoa dựng sau -->

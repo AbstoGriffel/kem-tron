@@ -14,6 +14,11 @@ export interface DropZone {
 export class DragManager {
   private layer: SVGSVGElement;
   zones: DropZone[] = [];
+  /** đang cầm 1 món (tay bận) — vd bảng chốt đơn live đợi tay rảnh mới bật */
+  busy = false;
+  /** T14: bắt đầu / thôi kéo 1 món (để trạm sáng lên hoặc mờ đi) */
+  onStart?: (iconId: string) => void;
+  onEnd?: () => void;
 
   constructor(layer: SVGSVGElement) {
     this.layer = layer;
@@ -48,6 +53,8 @@ export class DragManager {
       const p = toStage(ev.clientX, ev.clientY);
       if (!moved && Math.hypot(p.x - p0.x, p.y - p0.y) > 6) {
         moved = true;
+        this.busy = true;
+        this.onStart?.(iconId);
         this.layer.appendChild(g);
         sfx('pick');
         gsap.fromTo(inner, { scale: 0.8 }, { scale: 1.18, duration: 0.08, ease: 'back.out(3)' });
@@ -78,6 +85,7 @@ export class DragManager {
       window.removeEventListener('pointerup', finish);
       window.removeEventListener('pointercancel', finish);
       this.zones.find((zz) => zz.id === hovered)?.onHover?.(false);
+      if (moved) { this.busy = false; this.onEnd?.(); }
       if (!moved) {
         gsap.ticker.remove(tick);
         g.remove();

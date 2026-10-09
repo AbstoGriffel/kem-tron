@@ -11,7 +11,8 @@ export function catSvg(): string {
     <path class="tail" d="M 44 18 C 80 10 84 -30 66 -40" stroke="#F2A65A" stroke-width="8" fill="none" stroke-linecap="round"/>
     <path d="M -50 30 C -56 -6 -20 -18 10 -14 C 40 -10 56 4 50 30 Z" fill="#F2A65A" ${S}/>
     <path d="M -30 -8 q 6 14 0 34 M -10 -12 q 6 18 0 40 M 12 -12 q 6 18 0 40 M 32 -6 q 4 14 0 32" stroke="#C97A34" stroke-width="5" fill="none" stroke-linecap="round"/>
-    <g class="cat-head" transform="translate(-44 -16)">
+    <!-- V3-20: đầu nhích vào 14px (mép trái đầu ≈ x−58) → mèo nằm đè tờ đơn (gốc x 70) không bị mép màn cắt tai/ria trái -->
+    <g class="cat-head" transform="translate(-30 -16)">
       <path d="M -26 -6 L -24 -38 L -8 -22 Q 0 -26 8 -22 L 24 -38 L 26 -6 C 28 14 -28 14 -26 -6 Z" fill="#F2A65A" ${S}/>
       <path d="M -20 -30 l 6 10 M 20 -30 l -6 10" stroke="#FFB4A6" stroke-width="4" stroke-linecap="round"/>
       <g class="cat-eyes"><ellipse cx="-10" cy="-8" rx="5" ry="6" fill="#fff" ${S}/><ellipse cx="10" cy="-8" rx="5" ry="6" fill="#fff" ${S}/><circle cx="-9" cy="-7" r="2.6" fill="${P.ink}"/><circle cx="11" cy="-7" r="2.6" fill="${P.ink}"/></g>

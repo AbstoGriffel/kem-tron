@@ -83,7 +83,7 @@ function faces(color: string): string {
       <path d="M -38 ${EY - 30} L -8 ${EY - 18} M 38 ${EY - 30} L 8 ${EY - 18}" stroke="${P.ink}" stroke-width="6" stroke-linecap="round"/>
       <path d="M -18 ${MY + 6} q 18 -18 36 0 z" fill="${mouthIn}" ${S2}/>
       <path d="M -12 ${MY + 1} h 24" stroke="${P.white}" stroke-width="4"/>
-      <g transform="translate(34 ${EY - 46})"><path d="M -8 -2 q 4 -4 8 0 q 4 -4 8 0 M -8 6 q 4 4 8 0 q 4 4 8 0" stroke="${P.red}" stroke-width="3.5" fill="none" stroke-linecap="round"/></g>`),
+      <g class="vein" transform="translate(40 ${EY - 26}) scale(1.163)"><path d="M 7.48 0 C 6.09 2.93 3.93 3.7 1 2.31 M 5.39 12.09 C 5.02 8.86 3.22 7.44 0 7.81 M 9.91 11 C 8.68 8 9.57 5.88 12.57 4.65" stroke="${P.red}" stroke-width="3.01" fill="none" stroke-linecap="round"/></g>`),
     f('disgust', `
       <path d="M -36 ${EY - 22} q 12 6 24 -4 M 12 ${EY - 26} q 12 -6 24 6" stroke="${dark}" stroke-width="4" fill="none" stroke-linecap="round"/>
       <path d="M -16 ${MY} q 8 -8 16 0 q 8 8 16 -2" stroke="${P.ink}" stroke-width="4" fill="none" stroke-linecap="round"/>
@@ -137,7 +137,7 @@ function accFront(a: Accessory, color: string): string {
       return `<g class="acc" transform="translate(0 -20)">
         <path d="M -60 ${top + 52} C -60 ${top - 4} 60 ${top - 4} 60 ${top + 52} Z" fill="${P.green}" ${S2}/>
         <path d="M -62 ${top + 52} H 66 q 6 0 6 6 H -62 z" fill="${P.greenDark}" ${S2}/>
-        <path d="M -30 ${top + 14} q 30 -16 60 0" stroke="${P.white}" stroke-width="5" fill="none" stroke-linecap="round" opacity=".7"/>
+        <path d="M -30 ${top + 24} q 30 -12 60 0" stroke="${P.white}" stroke-width="5" fill="none" stroke-linecap="round" opacity=".7"/>
         <path d="M -54 ${top + 56} q -10 50 6 80 M 54 ${top + 56} q 10 50 -6 80" stroke="${P.ink}" stroke-width="3" fill="none"/>
       </g>`;
     case 'non_la':
@@ -228,6 +228,9 @@ function accFront(a: Accessory, color: string): string {
 
 /** SVG hạt đậu đầy đủ (chuỗi), mặc định biểu cảm idle. */
 let beanUid = 0;
+/** V5-22: tóc / nón che trán → ẩn dấu gân giận (không lòi mẩu đỏ ngoài mép tóc); mặt giận vẫn đọc được qua mắt + miệng */
+const FOREHEAD_COVER: string[] = ['toc_uon', 'toc_buoi', 'non_bao_hiem', 'non_la', 'mu_phot', 'ao_chong_nang'];
+
 export function beanSvg(spec: BeanSpec): string {
   const uid = ++beanUid;
   const c = spec.color;
@@ -251,7 +254,7 @@ export function beanSvg(spec: BeanSpec): string {
       <g class="head">
         ${eyes(spec.eyes ?? 'round')}
         ${lids(c)}
-        ${faces(c)}
+        ${spec.acc.some((a) => FOREHEAD_COVER.includes(a)) ? faces(c).replace('<g class="vein"', '<g class="vein" style="display:none"') : faces(c)}
         ${spec.acc.map((a) => accFront(a, c)).join('')}
       </g>
       <g class="fx"></g>

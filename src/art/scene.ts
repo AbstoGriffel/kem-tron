@@ -121,8 +121,8 @@ export const WINDOW_FRONT = `
 /** Tường bạc hà + mảng gạch bông cao tới mép bàn (y 186→337). */
 export const WALL = `
 <g id="wall">
-  <rect x="0" y="-80" width="390" height="267" fill="${P.mint}"/>
-  <path d="M0 -80 H390 V6 H0 Z" fill="${P.mintDark}" opacity=".5"/>
+  <rect x="0" y="-400" width="390" height="587" fill="${P.mint}"/>
+  <path d="M0 -400 H390 V6 H0 Z" fill="${P.mintDark}" opacity=".5"/>
   <!-- vệt ố, vết nứt cho có không khí phòng trọ -->
   <path d="M352 120 q 10 6 6 18 q -6 10 4 22 q 8 10 -2 20 l 30 0 l 0 -64 z" fill="${P.mintDark}" opacity=".55"/>
   <rect x="0" y="186" width="390" height="152" fill="url(#pt-tile)"/>
@@ -149,27 +149,37 @@ export function tableSvg(t0: number, t1: number): string {
 }
 
 /** Ngăn kéo gỗ (khung) từ y0 tới đáy H. */
-export function drawerSvg(y0: number, H: number): string {
+export function drawerSvg(y0: number, H: number, padB = 0): string {
   // tủ gỗ: nền + khung viền mực bo góc bao toàn bộ ngăn dưới (như bản Figma)
   return `
 <g id="drawer">
   <path d="M-4 ${y0} H394 V${H + 10} H-4 Z" fill="${P.woodDark}"/>
   <path d="M-4 ${y0} H394" stroke="${P.ink}" stroke-width="3"/>
-  <rect x="5" y="${y0 + 10}" width="380" height="${H - y0 - 18}" rx="10" fill="#7A4A2A" stroke="${P.ink}" stroke-width="3"/>
+  <rect x="5" y="${y0 + 10}" width="380" height="${H - padB - y0 - 18}" rx="10" fill="#7A4A2A" stroke="${P.ink}" stroke-width="3"/>
 </g>`;
 }
 
-/** Ổ điện + dây điện chằng chịt trên tường phải (nối máy xay), kéo dài tới mép bàn. */
-export const CORDS = `
+/**
+ * Ổ điện + dây điện chằng chịt trên tường phải (nối máy xay), kéo dài tới mép bàn.
+ * Ổ điện ghim theo đồ treo tường (pinY, cùng hệ với lịch) để máy ngắn không bị lịch che; dây giãn theo tới mép bàn.
+ */
+export function cords(pinY = 0): string {
+  const y0 = 168 + pinY, k = (342 - y0) / 174;
+  return `
 <g id="cords">
-  <rect x="356" y="150" width="28" height="18" rx="3" fill="${P.white}" ${ink(2)}/>
-  <circle cx="364" cy="159" r="2" fill="${P.ink}"/><circle cx="376" cy="159" r="2" fill="${P.ink}"/>
-  <path d="M370 168 C 372 196 384 210 376 236 C 370 256 386 280 378 300 C 372 316 384 326 380 342" stroke="${P.ink}" stroke-width="3" fill="none"/>
-  <path d="M362 168 C 356 190 350 196 356 214 C 362 236 350 262 358 290 C 362 306 354 322 360 342" stroke="${P.red}" stroke-width="3" fill="none"/>
+  <g transform="translate(0 ${pinY})">
+    <rect x="356" y="150" width="28" height="18" rx="3" fill="${P.white}" ${ink(2)}/>
+    <circle cx="364" cy="159" r="2" fill="${P.ink}"/><circle cx="376" cy="159" r="2" fill="${P.ink}"/>
+  </g>
+  <g transform="translate(0 ${y0}) scale(1 ${k.toFixed(3)}) translate(0 -168)">
+    <path d="M370 168 C 372 196 384 210 376 236 C 370 256 386 280 378 300 C 372 316 384 326 380 342" stroke="${P.ink}" stroke-width="3" fill="none" vector-effect="non-scaling-stroke"/>
+    <path d="M362 168 C 356 190 350 196 356 214 C 362 236 350 262 358 290 C 362 306 354 322 360 342" stroke="${P.red}" stroke-width="3" fill="none" vector-effect="non-scaling-stroke"/>
+  </g>
 </g>`;
+}
 
-export function sceneSvg(L: { H: number; dy: number; topY: number } = { H: 844, dy: 0, topY: 0 }): string {
-  const { H, dy, topY } = L;
+export function sceneSvg(L: { H: number; dy: number; topY: number; pinY?: number; padB?: number } = { H: 844, dy: 0, topY: 0 }): string {
+  const { H, dy, topY, pinY = 0, padB = 0 } = L;
   return `<svg id="scene" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 ${H}" width="390" height="${H}">
   ${DEFS}
   ${tableSvg(337 + topY, 571 + dy)}
@@ -178,16 +188,16 @@ export function sceneSvg(L: { H: number; dy: number; topY: number } = { H: 844, 
     ${OUTSIDE}
     <g id="customer-slot" clip-path="url(#clip-window)"></g>
     ${WINDOW_FRONT}
-    ${CORDS}
-    <g id="wall-left"></g>
-    <g id="wall-right"></g>
+    ${cords(pinY)}
+    <g id="wall-left" transform="translate(0 ${pinY})"></g>
+    <g id="wall-right" transform="translate(0 ${pinY})"></g>
   </g>
   <g id="table-back"></g>
   <g id="station-blender"></g>
   <g id="station-mortar"></g>
   <g id="station-stove"></g>
   <g id="station-bowl"></g>
-  ${drawerSvg(576 + dy, H)}
+  ${drawerSvg(576 + dy, H, padB)}
   <g id="zone-bottom" transform="translate(0 ${dy})">
     <g id="drawer-content"></g>
     <g id="table-front"></g>

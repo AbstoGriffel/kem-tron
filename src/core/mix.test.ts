@@ -18,6 +18,10 @@ describe('computeMix', () => {
     expect(processedStats('dua_leo', 'xay')).toMatchObject({ m: 3, k: 0 });
     expect(processedStats('nha_dam', 'xay')).toMatchObject({ m: 3, k: 0, d: 1 });
   });
+  it('Q9: giã không bao giờ nhân Độc (chanh, nghệ, phèn chua)', () => {
+    for (const id of ['chanh', 'nghe', 'phen_chua']) expect(processedStats(id, 'nghien').d).toBe(processedStats(id, 'raw').d);
+    expect(processedStats('phen_chua', 'nghien').m).toBe(5);
+  });
   it('combo núi lửa + combo bà ngoại', () => {
     const r = computeMix('kem_tron', [{ id: 'chanh', proc: 'raw' }, { id: 'kem_danh_rang', proc: 'raw' }]);
     expect(r.combos.map((c) => c.fx)).toContain('nui_lua');
@@ -65,5 +69,17 @@ describe('scoreMix', () => {
     const s = scoreMix({ stats: { t: 8, m: 0, n: 0, k: 0, d: 4 }, target: { t: [7, 9], maxDoc: 3 }, packMatch: true });
     expect(s.stars).toBe(1);
     expect(s.refund).toBe('full');
+  });
+});
+
+describe('T10 lỗi chính', () => {
+  it('kích ứng thắng mọi lỗi lệch chỉ số; không kích ứng thì lấy chỉ số lệch xa nhất', async () => {
+    const { mainError } = await import('./serve');
+    const tox = scoreMix({ stats: { t: 10, m: 0, n: 0, k: 0, d: 12 }, target: { t: [4, 6] }, packMatch: false });
+    expect(mainError(tox)).toBe('kich_ung');
+    const over = scoreMix({ stats: { t: 10, m: 5, n: 0, k: 0, d: 2 }, target: { t: [4, 6], m: [4, 6] }, packMatch: false });
+    expect(mainError(over)).toBe('t+');
+    const ok = scoreMix({ stats: { t: 5, m: 0, n: 0, k: 0, d: 0 }, target: { t: [4, 6] }, packMatch: false });
+    expect(mainError(ok)).toBeNull();
   });
 });
