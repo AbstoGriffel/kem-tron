@@ -70,7 +70,7 @@
     const box=document.getElementById('kt-cloud-content');if(!box)return;
     box.replaceChildren();
     const txt=document.createElement('p');
-    txt.textContent=on()?'Cloud Save đang bật. Mã khôi phục là chìa khóa truy cập — không chia sẻ công khai.':'Tiến độ chỉ lưu trên máy. Khi bật cloud, game đồng bộ bản lưu và gửi thống kê chơi cơ bản, không cần tài khoản.';
+    txt.textContent=on()?(get(STAMP)?'Cloud Save đã từng đồng bộ. Mã khôi phục là chìa khóa truy cập — không chia sẻ công khai.':'Chưa kết nối cloud thành công. Tiến độ đang lưu trên máy; kiểm tra thông báo khi đồng bộ.'):'Tiến độ chỉ lưu trên máy. Khi bật cloud, game đồng bộ bản lưu và gửi thống kê chơi cơ bản, không cần tài khoản.';
     box.append(txt);
     const button=(name,fn)=>{const b=document.createElement('button');b.textContent=name;b.onclick=fn;box.append(b);};
     if(!on())button('Bật Cloud Save',activate);
@@ -81,6 +81,11 @@
       button('Sao chép mã khôi phục',async()=>{try{await navigator.clipboard.writeText(get(K));status('Đã sao chép.');}catch{status('Hãy chọn mã rồi sao chép.');}});
       button('Đồng bộ ngay',()=>sync(true));
       if(conflict)button('Xem bản cloud mới hơn',()=>recover(get(K)));
+      button('Xóa save cloud',async()=>{
+        if(!confirm('Xóa vĩnh viễn bản lưu và sự kiện chơi trên cloud? Bản lưu trên máy vẫn được giữ.'))return;
+        try{await call('DELETE',get(K));for(const k of [K,ON,LAST,STAMP])try{localStorage.removeItem(k);}catch{};draw();status('Đã xóa dữ liệu cloud. Bản lưu trên máy vẫn nguyên vẹn.');}
+        catch(e){status('Không xóa được dữ liệu cloud: '+e.message);}
+      });
       button('Tắt Cloud Save',()=>{set(ON,'no');status('Đã tắt. Tiến độ trên máy vẫn giữ nguyên.');draw();});
     }
     button('Khôi phục bằng mã',()=>{const k=prompt('Nhập mã khôi phục kt1_…:');if(k!==null)recover(k);});

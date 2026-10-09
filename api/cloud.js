@@ -23,7 +23,7 @@ async function db() {
   return client;
 }
 export default async function handler(req, res) {
-  if (!['GET','POST'].includes(req.method)) return reply(res, 405, { error:'METHOD_NOT_ALLOWED' });
+  if (!['GET','POST','DELETE'].includes(req.method)) return reply(res, 405, { error:'METHOD_NOT_ALLOWED' });
   const token = /^Bearer (.+)$/.exec(req.headers.authorization || '')?.[1];
   if (!/^kt1_[A-Za-z0-9_-]{43}$/.test(token || '')) return reply(res, 401, { error:'INVALID_KEY' });
   if (Number(req.headers['content-length'] || 0) > 128000) return reply(res, 413, { error:'SAVE_TOO_LARGE' });
@@ -33,6 +33,11 @@ export default async function handler(req, res) {
   catch (err) { console.error('DB setup failed', err?.message); return reply(res, 503, { error:'DATABASE_UNAVAILABLE' }); }
   if (!sql) return reply(res, 503, { error:'CLOUD_NOT_CONFIGURED' });
   try {
+    if (req.method === 'DELETE') {
+      await sql.query('DELETE FROM kem_tron_events WHERE player_id=$1',[player]);
+      await sql.query('DELETE FROM kem_tron_players WHERE player_id=$1',[player]);
+      return reply(res,200,{ok:true});
+    }
     if (req.method === 'GET') {
       const [p] = await sql.query('SELECT state,client_updated_ms FROM kem_tron_players WHERE player_id=$1 LIMIT 1',[player]);
       return p ? reply(res,200,{state:p.state,updatedAt:Number(p.client_updated_ms)}) : reply(res,404,{error:'SAVE_NOT_FOUND'});
