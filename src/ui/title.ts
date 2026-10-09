@@ -5,6 +5,8 @@ import { jarSvg } from './jar';
 import { sfx, unlockAudio, isMuted, setMuted } from './audio';
 import '../styles/title-morning.css';
 import { ex, watchLayout } from './stage';
+import { canOfferInstall, installApp, INSTALL_ICON, onInstallChange } from './install';
+import { openCloud } from './cloud';
 
 /** Tâm hũ kem trên màn tiêu đề — tia sáng xoay quanh đúng điểm này. */
 const JAR_C: [number, number] = [195, 440];
@@ -27,7 +29,9 @@ export function settingsGear(host: HTMLElement): HTMLElement {
   const w = document.createElement('div');
   w.className = 'gear-wrap';
   w.innerHTML = `<button class="gear-btn" aria-label="Cài đặt"><svg viewBox="-18 -18 36 36" width="34" height="34"><g class="gear-rot"><path d="${gearPath()}" fill="${P.yellow}" fill-rule="evenodd" stroke="${P.ink}" stroke-width="2.4" stroke-linejoin="round"/></g></svg></button>
-    <div class="gear-pop" hidden><div class="gp-h">Cài đặt</div><button class="gp-mute"></button></div>`;
+    <div class="gear-pop" hidden><div class="gp-h">Cài đặt</div><button class="gp-mute"></button>
+      <button class="gp-mute gp-cloud">Lưu lên mây</button>
+      <button class="gp-mute gp-install">Lưu vào màn hình chính</button></div>`;
   host.appendChild(w);
   const btn = w.querySelector('.gear-btn') as HTMLButtonElement;
   const pop = w.querySelector('.gear-pop') as HTMLElement;
@@ -53,6 +57,12 @@ export function settingsGear(host: HTMLElement): HTMLElement {
     paint();
     sfx('click');
   });
+  const inst = w.querySelector('.gp-install') as HTMLButtonElement;
+  const offInst = onInstallChange(() => { if (!w.isConnected) offInst(); else paintInst(); });
+  const paintInst = () => { inst.hidden = !canOfferInstall(); };
+  paintInst();
+  inst.addEventListener('click', (e) => { e.stopPropagation(); close(); installApp(host); });
+  w.querySelector('.gp-cloud')!.addEventListener('click', (e) => { e.stopPropagation(); close(); sfx('click'); openCloud(host); });
   pop.addEventListener('pointerdown', (e) => e.stopPropagation());
   btn.addEventListener('pointerdown', (e) => e.stopPropagation());
   host.addEventListener('pointerdown', close);
@@ -101,9 +111,15 @@ export function showTitle(modal: HTMLElement, o: { canContinue: boolean; day: nu
       ${o.canContinue ? `<button class="b-cont">Bán tiếp — ngày ${o.day}</button>` : ''}
       <button class="b-new ${o.canContinue ? 'alt' : ''}">${o.canContinue ? 'Mở tiệm mới' : 'MỞ TIỆM!'}</button>
     </div>
+    <button class="ts-install" hidden>${INSTALL_ICON}<span>Lưu vào màn hình chính</span></button>
     <div class="ts-foot">Game vui vẻ, mọi nhân vật và thương hiệu đều là chế.<br>Ngoài đời đừng xài kem trộn nha!</div>`;
   modal.appendChild(d);
   settingsGear(d);
+  const inst = d.querySelector('.ts-install') as HTMLButtonElement;
+  const paintInst = () => { inst.hidden = !canOfferInstall(); };
+  paintInst();
+  const offInst = onInstallChange(paintInst);
+  inst.addEventListener('click', (e) => { e.stopPropagation(); unlockAudio(); installApp(d); });
   // máy dài/ngắn: logo neo trên, nút + 3 bạn đậu neo dưới; hũ kem nằm giữa khoảng trống còn lại (thu nhỏ nếu chật)
   const logo = d.querySelector('.ts-logo') as HTMLElement, btns = d.querySelector('.ts-btns') as HTMLElement;
   watchLayout(d, () => {
@@ -124,7 +140,7 @@ export function showTitle(modal: HTMLElement, o: { canContinue: boolean; day: nu
   // nhún lên xuống ở <g> trong riêng, để không cộng dồn origin với tween scale ở .ts-jar (bị lệch tâm)
   gsap.to(d.querySelector('.ts-bob'), { y: -8, duration: 1.4, yoyo: true, repeat: -1, ease: 'sine.inOut', delay: 0.7 });
   d.querySelectorAll('.ts-bean').forEach((b, i) => {
-    gsap.fromTo(b, { y: 160 }, { y: -40 - i * 10, duration: 0.5, delay: 0.3 + i * 0.15, ease: 'back.out(2)' });
+    gsap.fromTo(b, { y: 160 }, { y: -68 - i * 10, duration: 0.5, delay: 0.3 + i * 0.15, ease: 'back.out(2)' });
   });
   // logo: KEM bật → TRÔN bật → kem chảy giọt → dấu nặng rơi xuống dưới chữ Ô thành TRỘN
   // dấu nặng nằm ngoài chữ TRÔN (chữ phóng to từ 0 sẽ kéo dấu theo ra giữa màn): đặt ngay dưới chữ Ô, tâm nằm trên vạch kem
@@ -145,6 +161,7 @@ export function showTitle(modal: HTMLElement, o: { canContinue: boolean; day: nu
     .to(dot, { y: -16, scaleX: 0.9, scaleY: 1.12, duration: 0.16, ease: 'power2.out' })
     .to(dot, { y: 0, scaleX: 1, scaleY: 1, duration: 0.16, ease: 'power2.in' })
     .to(dot, { scaleX: 1.15, scaleY: 0.85, duration: 0.06, yoyo: true, repeat: 1 });
+  gsap.fromTo(inst, { opacity: 0 }, { opacity: 1, duration: 0.3, delay: 1 });
   gsap.fromTo(d.querySelectorAll('.ts-btns button'), { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, stagger: 0.08, delay: 0.6, ease: 'back.out(2)' });
   // chớp mắt hũ
   const blink = () => {
@@ -157,6 +174,7 @@ export function showTitle(modal: HTMLElement, o: { canContinue: boolean; day: nu
   const go = (fn: () => void) => {
     unlockAudio();
     sfx('ding');
+    offInst();
     gsap.to(d, { opacity: 0, scale: 1.1, duration: 0.3, onComplete: () => { d.remove(); fn(); } });
   };
   d.querySelector('.b-new')!.addEventListener('click', () => go(o.onNew));

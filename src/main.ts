@@ -1,4 +1,5 @@
 import './styles/base.css';
+import './ui/install'; // bắt beforeinstallprompt sớm nhất có thể
 import { fitStage } from './ui/stage';
 import { bootLab } from './ui/lab';
 import { Game } from './ui/game';

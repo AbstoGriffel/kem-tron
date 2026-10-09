@@ -5,7 +5,8 @@ import { BOWL, STOVE } from '../art/props';
 import { openSettings } from './settings';
 import { endDay, startNextDay, type DayLog, type Ledger, type MorningNews } from '../core/day';
 import { liveEndDay, type LiveState } from '../core/live';
-import { loadJSON, saveJSON, SAVE_KEY, removeKey } from '../core/storage';
+import { loadJSON, saveJSON, SAVE_KEY, removeKey, saveLock } from '../core/storage';
+import { cloudAfterSave, cloudFlush } from './cloud';
 import { dayRng, newGame, type SaveState } from '../core/state';
 import { sfx, unlockAudio } from './audio';
 import { initFx } from './fx';
@@ -58,10 +59,10 @@ export class Game {
     if (import.meta.env.DEV) (window as unknown as { __game: Game }).__game = this;
     window.addEventListener('pointerdown', unlockAudio, { capture: true });
     document.addEventListener('visibilitychange', () => {
-      if (document.hidden) { gsap.globalTimeline.pause(); this.save(); }
+      if (document.hidden) { gsap.globalTimeline.pause(); this.save(); cloudFlush(); }
       else gsap.globalTimeline.resume();
     });
-    window.addEventListener('pagehide', () => this.save());
+    window.addEventListener('pagehide', () => { this.save(); cloudFlush(); });
 
     const saved = loadJSON<SaveState | null>(SAVE_KEY, null);
     const params = new URLSearchParams(location.search);
@@ -99,7 +100,8 @@ export class Game {
   }
 
   save() {
-    if (this.s) saveJSON(SAVE_KEY, this.s);
+    if (!this.s || saveLock.on) return;
+    if (saveJSON(SAVE_KEY, this.s)) cloudAfterSave();
   }
 
   /** Save cũ (trước đợt 06/10): chưa có dấu "đã xem" từng món → đánh dấu sẵn để không chấm đỏ mọi ô; qua ngày 1 thì coi như đã học xong. */

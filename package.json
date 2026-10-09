@@ -7,17 +7,19 @@
     "dev": "vite --host",
     "build": "tsc --noEmit && vite build",
     "test": "vitest run",
-    "preview": "vite preview --host"
+    "preview": "vite preview --host",
+    "test:cloud": "node tests/cloud-api.mjs"
   },
   "devDependencies": {
+    "pg": "^8.23.1",
     "typescript": "^7.0.2",
     "vite": "^8.3.2",
     "vite-plugin-singlefile": "^2.3.3",
     "vitest": "^5.0.3"
   },
   "dependencies": {
+    "@neondatabase/serverless": "1.1.0",
     "gsap": "^3.15.0",
-    "spectral.js": "^3.0.0",
-    "@neondatabase/serverless": "1.1.0"
+    "spectral.js": "^3.0.0"
   }
 }

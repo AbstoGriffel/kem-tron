@@ -518,7 +518,8 @@ button { font-family: inherit; color: inherit; }
 .ticket-zoom { top: auto !important; bottom: 12px !important; left: 8px !important; width: 316px !important; }
 
 .ts-btns { z-index: 3; bottom: calc(176px + var(--padB, 0px)) !important; }
-.ts-foot { z-index: 2; bottom: calc(112px + var(--padB, 0px)) !important; }
+/* chân trang đè lên thân 3 bạn đậu ở đáy màn (chừa chỗ cho nút Lưu vào màn hình chính) */
+.ts-foot { z-index: 2; bottom: calc(6px + var(--padB, 0px)) !important; }
 .speech-acts { position: absolute; right: 8px; bottom: -14px; display: flex; gap: 6px; }
 .speech-acts button { font: 13px var(--f-title); min-height: 32px; padding: 6px 14px; line-height: 1; border: 2.5px solid var(--ink); border-radius: 99px; box-shadow: 0 3px 0 var(--ink); cursor: pointer; }
 .speech-acts .sp-ask { background: var(--blue); color: #fff; }

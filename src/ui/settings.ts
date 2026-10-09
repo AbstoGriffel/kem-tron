@@ -4,6 +4,8 @@ import { isMuted, setMuted, sfx } from './audio';
 import { roomyPref } from './drawer';
 import type { Game } from './game';
 import { music } from './music';
+import { cloudLabel, onCloudChange, openCloud } from './cloud';
+import { canOfferInstall, installApp } from './install';
 
 /** Trạng thái tạm dừng dùng chung (shop.tick kiểm tra). */
 export const pauseState = { on: false };
@@ -25,11 +27,15 @@ export function openSettings(g: Game) {
       ${row('sound', 'Âm thanh', isMuted() ? 'TẮT' : 'BẬT')}
       ${row('music', 'Nhạc nền', musicPref.get() ? 'BẬT' : 'TẮT')}
       ${row('roomy', 'Ô nguyên liệu', roomyPref.get() ? 'RỘNG RÃI' : 'GỌN')}
+      ${row('cloud', 'Lưu lên mây', cloudLabel())}
+      ${canOfferInstall() ? row('install', 'Màn hình chính', 'THÊM') : ''}
       <button class="st-resume">Bán tiếp</button>
       <button class="st-home">Về màn tiêu đề</button>
     </div>`;
     root.querySelectorAll<HTMLButtonElement>('.st-row').forEach((b) => b.addEventListener('click', () => {
       const id = b.dataset.id;
+      if (id === 'cloud') { sfx('click'); openCloud(root); return; }
+      if (id === 'install') { installApp(root); return; }
       if (id === 'sound') setMuted(!isMuted());
       if (id === 'music') { musicPref.set(!musicPref.get()); music.setEnabled(musicPref.get() && !isMuted()); }
       if (id === 'roomy') { const v = !roomyPref.get(); roomyPref.set(v); g.shop?.setRoomy(v); }
@@ -40,12 +46,14 @@ export function openSettings(g: Game) {
     root.querySelector('.st-home')!.addEventListener('click', () => { g.save(); location.reload(); });
   };
   const close = () => {
+    offCloud();
     pauseState.on = false;
     gsap.globalTimeline.resume();
     sfx('click');
     gsap.to(root, { opacity: 0, duration: 0.15, onComplete: () => root.remove() });
   };
   render();
+  const offCloud = onCloudChange(() => { const b = root.querySelector('.st-row[data-id="cloud"] b'); if (b) b.textContent = cloudLabel(); });
   g.modal.appendChild(root);
   root.addEventListener('pointerdown', (e) => { if (e.target === root) close(); });
   // mở menu xong mới dừng mọi chuyển động của game

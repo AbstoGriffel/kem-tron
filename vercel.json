@@ -1,6 +1,6 @@
 {
   "framework": null,
   "buildCommand": "",
-  "installCommand": "npm install --no-package-lock",
+  "installCommand": "npm ci",
   "outputDirectory": "dist"
 }

@@ -29,3 +29,6 @@ export function removeKey(key: string) {
 }
 
 export const SAVE_KEY = KEY;
+
+/** Bật khi vừa ghi bản lấy từ mây và sắp tải lại trang: chặn Game.save() (pagehide) ghi đè bản cũ lên. */
+export const saveLock = { on: false };
