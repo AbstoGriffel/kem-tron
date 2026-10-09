@@ -1,6 +1,6 @@
 {
   "framework": null,
   "buildCommand": "",
-  "installCommand": "",
+  "installCommand": "npm install --no-package-lock",
   "outputDirectory": "dist"
 }
